@@ -39,11 +39,13 @@ export const useControls = (controls: Controls) => {
 
   const handleSwipe = useCallback(
     (direction: Direction) => {
-      if (direction !== "up") {
+      if (direction === "up") {
+        holdTetrimino();
+      } else {
         moveTetrimino(direction);
       }
     },
-    [moveTetrimino]
+    [holdTetrimino, moveTetrimino]
   );
 
   useSwipeListener(handleSwipe, { threshold: { x: 20, y: 5 } });
