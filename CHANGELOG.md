@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/ollyrowe/tetris/compare/v1.0.1...v1.0.2) (2023-09-02)
+
+
+### Bug Fixes
+
+* fix mobile swipe controls ([ebb9716](https://github.com/ollyrowe/tetris/commit/ebb9716cd72a4921e57e590b0727b568f83d45ba))
+
 ## [1.0.1](https://github.com/ollyrowe/tetris/compare/v1.0.0...v1.0.1) (2023-09-02)
 
 
