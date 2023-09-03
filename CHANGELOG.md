@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/ollyrowe/tetris/compare/v1.1.2...v1.1.3) (2023-09-03)
+
+
+### Bug Fixes
+
+* rework board alignment ([8b903dd](https://github.com/ollyrowe/tetris/commit/8b903dd5a98025ed69057f6f04e4934d840709c6))
+
 ## [1.1.2](https://github.com/ollyrowe/tetris/compare/v1.1.1...v1.1.2) (2023-09-03)
 
 
