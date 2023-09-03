@@ -8,9 +8,9 @@ import Next from "./components/Next";
 import Hold from "./components/Hold";
 import Level from "./components/Level";
 import Lines from "./components/Lines";
+import { ScreenTypeProvider, useScreenType } from "./providers";
 import { useGame } from "./hooks/useGame";
 import { useControls } from "./hooks/useControls";
-import { useScreenSize } from "./providers/ResponsiveContext";
 
 const App: React.FC = () => {
   const { tiles, stats, queue, heldTetrimino, controls, over } = useGame();
@@ -18,24 +18,26 @@ const App: React.FC = () => {
   useControls(controls);
 
   return (
-    <Background>
-      <Container>
-        <TopRow>
-          <Score points={stats.points} />
-        </TopRow>
-        <BottomRow>
-          <LeftColumn>
-            <Hold type={heldTetrimino} />
-            <Level level={stats.level} />
-            <Lines lines={stats.lines} />
-          </LeftColumn>
-          <Board tiles={tiles} over={over} />
-          <RightColumn>
-            <Next queue={queue} />
-          </RightColumn>
-        </BottomRow>
-      </Container>
-    </Background>
+    <ScreenTypeProvider>
+      <Background>
+        <Container>
+          <TopRow>
+            <Score points={stats.points} />
+          </TopRow>
+          <BottomRow>
+            <LeftColumn>
+              <Hold type={heldTetrimino} />
+              <Level level={stats.level} />
+              <Lines lines={stats.lines} />
+            </LeftColumn>
+            <Board tiles={tiles} over={over} />
+            <RightColumn>
+              <Next queue={queue} />
+            </RightColumn>
+          </BottomRow>
+        </Container>
+      </Background>
+    </ScreenTypeProvider>
   );
 };
 
@@ -46,10 +48,13 @@ interface TopRowProps {
 }
 
 const TopRow: React.FC<TopRowProps> = ({ children }) => {
-  const screenSize = useScreenSize();
+  const screenType = useScreenType();
 
   return (
-    <Box align="center" anchor={screenSize !== "large" ? "bottom" : undefined}>
+    <Box
+      align="center"
+      anchor={screenType !== "desktop" ? "bottom" : undefined}
+    >
       {children}
     </Box>
   );
@@ -65,20 +70,20 @@ interface ColumnProps {
 }
 
 const LeftColumn: React.FC<ColumnProps> = ({ children }) => {
-  const screenSize = useScreenSize();
+  const screenType = useScreenType();
 
   return (
-    <Column align="end" anchor={screenSize !== "large" ? "right" : undefined}>
+    <Column align="end" anchor={screenType !== "desktop" ? "right" : undefined}>
       {children}
     </Column>
   );
 };
 
 const RightColumn: React.FC<ColumnProps> = ({ children }) => {
-  const screenSize = useScreenSize();
+  const screenType = useScreenType();
 
   return (
-    <Column anchor={screenSize !== "large" ? "left" : undefined}>
+    <Column anchor={screenType !== "desktop" ? "left" : undefined}>
       {children}
     </Column>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import { styled } from "styled-components";
 import Block from "./Block";
 import Placeholder from "./Placeholder";
-import { useScreenSize } from "../providers";
+import { useScreenType } from "../providers";
 import { Tetrimino, TetriminoType, createTetrimino } from "../model";
 import { Tile } from "../types";
 
@@ -11,14 +11,14 @@ interface Props {
 }
 
 const Preview: React.FC<Props> = ({ type }) => {
-  const screenSize = useScreenSize();
+  const screenType = useScreenType();
 
   const tetrimino = type ? createTetrimino(type) : undefined;
 
   const tiles = tetrimino ? createTiles(tetrimino) : [];
 
   return (
-    <Container pad={screenSize === "large"}>
+    <Container pad={screenType === "desktop"}>
       {tiles.map((row, i) => (
         <Row key={i}>
           {row.map((tile, j) => (

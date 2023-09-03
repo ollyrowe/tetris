@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import Box from "./Box";
-import { ScreenSize, useScreenSize } from "../providers";
+import { ScreenType, useScreenType } from "../providers";
 
 interface Props {
   title: string;
@@ -9,10 +9,10 @@ interface Props {
 }
 
 const Section: React.FC<Props> = ({ title, children }) => {
-  const screenSize = useScreenSize();
+  const screenType = useScreenType();
 
   return (
-    <StyledBox title={title} margin={screenSize}>
+    <StyledBox title={title} margin={screenType}>
       {children}
     </StyledBox>
   );
@@ -21,7 +21,7 @@ const Section: React.FC<Props> = ({ title, children }) => {
 export default Section;
 
 interface StyledBoxProps {
-  margin: ScreenSize;
+  margin: ScreenType;
 }
 
 const StyledBox = styled(Box)<StyledBoxProps>`
