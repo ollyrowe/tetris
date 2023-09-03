@@ -61,6 +61,7 @@ const Contents = styled.div<ScaleDetails>`
   margin: auto;
   scale: ${(props) => props.scale};
   transform-origin: ${(props) => props.origin};
+  user-select: none;
 `;
 
 type ScaleDetails = {
