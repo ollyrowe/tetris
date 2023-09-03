@@ -2,7 +2,7 @@ import { useEffect, useCallback, useRef } from "react";
 import { Direction } from "../types";
 
 interface Options {
-  threshold: { x: number; y: number };
+  threshold: { [direction in Direction]: number };
 }
 
 export const useSwipeListener = (
@@ -24,25 +24,25 @@ export const useSwipeListener = (
 
       touchEnd.current = { x: touch.clientX, y: touch.clientY };
 
-      if (touchStart.current.x - touchEnd.current.x > options.threshold.x) {
+      if (touchStart.current.x - touchEnd.current.x > options.threshold.left) {
         callback("left");
 
         touchStart.current = touchEnd.current;
       }
 
-      if (touchEnd.current.x - touchStart.current.x > options.threshold.x) {
+      if (touchEnd.current.x - touchStart.current.x > options.threshold.right) {
         callback("right");
 
         touchStart.current = touchEnd.current;
       }
 
-      if (touchStart.current.y - touchEnd.current.y > options.threshold.y) {
+      if (touchStart.current.y - touchEnd.current.y > options.threshold.up) {
         callback("up");
 
         touchStart.current = touchEnd.current;
       }
 
-      if (touchEnd.current.y - touchStart.current.y > options.threshold.y) {
+      if (touchEnd.current.y - touchStart.current.y > options.threshold.down) {
         callback("down");
 
         touchStart.current = touchEnd.current;

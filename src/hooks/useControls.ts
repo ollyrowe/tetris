@@ -48,7 +48,9 @@ export const useControls = (controls: Controls) => {
     [holdTetrimino, moveTetrimino]
   );
 
-  useSwipeListener(handleSwipe, { threshold: { x: 20, y: 5 } });
+  useSwipeListener(handleSwipe, {
+    threshold: { left: 20, right: 20, up: 80, down: 5 },
+  });
 
   useClickListener(rotateTetrimino);
 };
