@@ -1,3 +1,15 @@
+## [1.1.1](https://github.com/ollyrowe/tetris/compare/v1.1.0...v1.1.1) (2023-09-03)
+
+
+### Bug Fixes
+
+* adjust score section size on mobile ([60409bd](https://github.com/ollyrowe/tetris/commit/60409bd364d18657cfd1a72e3db7161a34ea88fb))
+* fix board alignment on mobile devices ([d94fcd5](https://github.com/ollyrowe/tetris/commit/d94fcd500936c5808cdaa924f01c854663aaae68))
+* increase score section width ([2ea9b5c](https://github.com/ollyrowe/tetris/commit/2ea9b5c4f632339017a87339aa67e8a90cac1f55))
+* increase section margin on mobile devices ([8fd5f31](https://github.com/ollyrowe/tetris/commit/8fd5f310f421a58d1fb0784f6b46cd608220b00a))
+* prevent tetrimino events after game end ([94110bd](https://github.com/ollyrowe/tetris/commit/94110bd4ca9e88d8a5ff529fad6ffa0dc97aa210))
+* prevent user selection ([94b589f](https://github.com/ollyrowe/tetris/commit/94b589f8eddb77ef9658209b2568ca037f72a1a9))
+
 # [1.1.0](https://github.com/ollyrowe/tetris/compare/v1.0.2...v1.1.0) (2023-09-03)
 
 
