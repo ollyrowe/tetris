@@ -46,8 +46,6 @@ Error generating stack: `+l.message+`
   overflow: hidden;
   height: 100%;
   width: 100%;
-  align-items: center;
-  justify-content: center;
 `,Qm=ne.div`
   position: absolute;
   height: 100%;
@@ -62,6 +60,7 @@ Error generating stack: `+l.message+`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin: auto;
   scale: ${e=>e.scale};
   transform-origin: ${e=>e.origin};
   user-select: none;
