@@ -58,9 +58,7 @@ const Contents = styled.div<ScaleDetails>`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: auto;
   scale: ${(props) => props.scale};
-  transform-origin: ${(props) => props.origin};
   user-select: none;
 `;
 
