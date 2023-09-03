@@ -25,7 +25,7 @@ interface StyledBoxProps {
 }
 
 const StyledBox = styled(Box)<StyledBoxProps>`
-  margin-top: ${(props) => (props.margin === "small" ? "12px" : "24px")};
+  margin-top: 24px;
   min-width: 50px;
   text-align: center;
 `;
