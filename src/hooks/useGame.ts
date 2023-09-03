@@ -71,22 +71,24 @@ export const useGame = () => {
   );
 
   const rotateTetrimino = () => {
-    const rotatedBlocks = tetrimino.current.getRotatedBlocks();
+    if (!over) {
+      const rotatedBlocks = tetrimino.current.getRotatedBlocks();
 
-    // Ensure the updated blocks haven't gone outside the board or collided with another block
-    if (
-      !hasBreachedBoardBounds(rotatedBlocks) &&
-      !hasCollision(rotatedBlocks, blocks.current)
-    ) {
-      tetrimino.current.rotate();
+      // Ensure the updated blocks haven't gone outside the board or collided with another block
+      if (
+        !hasBreachedBoardBounds(rotatedBlocks) &&
+        !hasCollision(rotatedBlocks, blocks.current)
+      ) {
+        tetrimino.current.rotate();
 
-      updateTiles();
+        updateTiles();
+      }
     }
   };
 
   const holdTetrimino = () => {
     // If the player hasn't already switched the held tetrimino
-    if (!hasSwitchedHeldTetrimino.current) {
+    if (!over && !hasSwitchedHeldTetrimino.current) {
       if (heldTetrimino) {
         const currentlyHeldTetrimino = heldTetrimino;
 
