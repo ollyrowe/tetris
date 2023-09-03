@@ -3,7 +3,6 @@ import { styled } from "styled-components";
 import Box from "./Box";
 import Block from "./Block";
 import Placeholder from "./Placeholder";
-import { useScreenSize, ScreenSize } from "../providers";
 import { Tile } from "../types";
 
 interface Props {
@@ -12,34 +11,30 @@ interface Props {
 }
 
 const Board: React.FC<Props> = ({ tiles, over }) => {
-  const screenSize = useScreenSize();
-
-  const getTileChild = (tile: Tile) => {
-    switch (tile.type) {
-      case "block":
-        return <Block {...tile.block} size={screenSize} />;
-      case "guide":
-        return <Block {...tile.guide} size={screenSize} transparent />;
-    }
-  };
-
   return (
     <StyledBox>
       {tiles.map((row, i) => (
         <Row key={i}>
           {row.map((tile, j) => (
-            <Placeholder key={j} size={screenSize}>
-              {getTileChild(tile)}
-            </Placeholder>
+            <Placeholder key={j}>{getTileChild(tile)}</Placeholder>
           ))}
         </Row>
       ))}
-      {over && <Over />}
+      {over && <OverText>Game Over</OverText>}
     </StyledBox>
   );
 };
 
 export default Board;
+
+const getTileChild = (tile: Tile) => {
+  switch (tile.type) {
+    case "block":
+      return <Block {...tile.block} />;
+    case "guide":
+      return <Block {...tile.guide} transparent />;
+  }
+};
 
 const StyledBox = styled(Box)`
   z-index: 1;
@@ -49,17 +44,7 @@ const Row = styled.div`
   display: flex;
 `;
 
-const Over: React.FC = () => {
-  const screenSize = useScreenSize();
-
-  return <OverText size={screenSize}>Game Over</OverText>;
-};
-
-interface OverTextProps {
-  size: ScreenSize;
-}
-
-const OverText = styled.div<OverTextProps>`
+const OverText = styled.div`
   position: absolute;
   top: 0;
   width: 100%;
@@ -70,16 +55,5 @@ const OverText = styled.div<OverTextProps>`
   align-items: center;
   text-align: center;
   justify-content: center;
-  font-size: ${(props) => getFontSize(props.size)};
+  font-size: xxx-large;
 `;
-
-const getFontSize = (size: ScreenSize) => {
-  switch (size) {
-    case "small":
-      return "x-large";
-    case "medium":
-      return "xx-large";
-    case "large":
-      return "xxx-large";
-  }
-};

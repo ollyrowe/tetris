@@ -22,8 +22,8 @@ const Preview: React.FC<Props> = ({ type }) => {
       {tiles.map((row, i) => (
         <Row key={i}>
           {row.map((tile, j) => (
-            <Placeholder key={j} size="xsmall" borderless>
-              {tile.type === "block" && <Block {...tile.block} size="xsmall" />}
+            <Placeholder key={j} size="small" borderless>
+              {tile.type === "block" && <Block {...tile.block} size="small" />}
             </Placeholder>
           ))}
         </Row>

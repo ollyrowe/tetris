@@ -1,8 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import Box from "./Box";
-import { useScreenSize } from "../providers";
-import { Size } from "../types";
+import { ScreenSize, useScreenSize } from "../providers";
 
 interface Props {
   title: string;
@@ -22,7 +21,7 @@ const Section: React.FC<Props> = ({ title, children }) => {
 export default Section;
 
 interface StyledBoxProps {
-  margin: Size;
+  margin: ScreenSize;
 }
 
 const StyledBox = styled(Box)<StyledBoxProps>`

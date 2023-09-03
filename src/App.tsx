@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import Background from "./components/Background";
+import Container from "./components/Container";
 import Board from "./components/Board";
 import Score from "./components/Score";
 import Next from "./components/Next";
@@ -39,13 +40,6 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: auto;
-`;
 
 interface TopRowProps {
   children: React.ReactNode;

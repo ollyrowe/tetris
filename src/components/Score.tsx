@@ -1,8 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import Box from "./Box";
-import { useScreenSize } from "../providers";
-import { Size } from "../types";
+import { ScreenSize, useScreenSize } from "../providers";
 
 interface Props {
   points: number;
@@ -21,7 +20,7 @@ const Score: React.FC<Props> = ({ points }) => {
 export default Score;
 
 interface StyledBoxProps {
-  size: Size;
+  size: ScreenSize;
 }
 
 const StyledBox = styled(Box)<StyledBoxProps>`
