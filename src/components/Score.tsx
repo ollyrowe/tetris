@@ -13,6 +13,6 @@ const Score: React.FC<Props> = ({ points }) => {
 export default Score;
 
 const StyledBox = styled(Box)`
-  min-width: 140px;
+  min-width: 190px;
   text-align: right;
 `;
