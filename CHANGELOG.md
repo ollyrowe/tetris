@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/ollyrowe/tetris/compare/v1.1.1...v1.1.2) (2023-09-03)
+
+
+### Bug Fixes
+
+* revert mobile board alignment changes ([0ca1402](https://github.com/ollyrowe/tetris/commit/0ca1402b6a0586d1dc19a9715c969e52413ac61b))
+
 ## [1.1.1](https://github.com/ollyrowe/tetris/compare/v1.1.0...v1.1.1) (2023-09-03)
 
 
