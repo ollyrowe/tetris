@@ -22,7 +22,7 @@ const App: React.FC = () => {
   return (
     <ScreenTypeProvider>
       <Background>
-        <Banner paused={paused} onTogglePause={controls.togglePause} />
+        <Banner paused={paused} pause={controls.pause} play={controls.play} />
         <Container ref={containerRef}>
           <TopRow>
             <Score points={stats.points} />

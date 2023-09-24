@@ -9,15 +9,14 @@ interface Controls {
   moveTetrimino: (direction: MoveableDirection) => void;
   rotateTetrimino: () => void;
   holdTetrimino: () => void;
-  togglePause: () => void;
+  pause: () => void;
 }
 
 export const useControls = (controls: Controls) => {
   // The ref to be bound to the DOM element that will receive the event listeners
   const ref = useRef<HTMLDivElement>(null);
 
-  const { moveTetrimino, rotateTetrimino, holdTetrimino, togglePause } =
-    controls;
+  const { moveTetrimino, rotateTetrimino, holdTetrimino, pause } = controls;
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
@@ -60,7 +59,7 @@ export const useControls = (controls: Controls) => {
 
   useClickListener(ref.current, rotateTetrimino);
 
-  usePageBlurListener(togglePause);
+  usePageBlurListener(pause);
 
   return ref;
 };

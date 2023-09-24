@@ -5,15 +5,24 @@ import PauseButton from "./PauseButton";
 
 interface BannerProps {
   paused: boolean;
-  onTogglePause: () => void;
+  pause: () => void;
+  play: () => void;
 }
 
-const Banner: React.FC<BannerProps> = ({ paused, onTogglePause }) => {
+const Banner: React.FC<BannerProps> = ({ paused, pause, play }) => {
+  const togglePause = () => {
+    if (paused) {
+      play();
+    } else {
+      pause();
+    }
+  };
+
   return (
     <Container>
-      <PauseButton paused={paused} onClick={onTogglePause} />
+      <PauseButton paused={paused} onClick={togglePause} />
       <Title />
-      <PauseButton paused={paused} onClick={onTogglePause} />
+      <PauseButton paused={paused} onClick={togglePause} />
     </Container>
   );
 };

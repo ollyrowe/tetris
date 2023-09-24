@@ -16,14 +16,14 @@ export const useInterval = (callback: IntervalCallback, delay: number) => {
     [callback]
   );
 
-  const togglePause = () => {
-    if (paused) {
-      setPaused(false);
-      interval.current = setInterval(handler, delay);
-    } else {
-      setPaused(true);
-      clearInterval(interval.current);
-    }
+  const pause = () => {
+    setPaused(true);
+    clearInterval(interval.current);
+  };
+
+  const play = () => {
+    setPaused(false);
+    interval.current = setInterval(handler, delay);
   };
 
   /**
@@ -37,7 +37,7 @@ export const useInterval = (callback: IntervalCallback, delay: number) => {
     return () => clearInterval(interval.current);
   }, [handler, delay]);
 
-  return { paused, togglePause };
+  return { paused, pause, play };
 };
 
 export type IntervalCallback = (options: { stop: () => void }) => void;
