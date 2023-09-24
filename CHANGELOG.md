@@ -1,3 +1,18 @@
+# [1.2.0](https://github.com/ollyrowe/tetris/compare/v1.1.3...v1.2.0) (2023-09-24)
+
+
+### Bug Fixes
+
+* adjust body styles to fix mobile align issue ([29a35af](https://github.com/ollyrowe/tetris/commit/29a35affc33eff17026babda8672d0572b88b902))
+* fix issue where page blur would resume play ([8575702](https://github.com/ollyrowe/tetris/commit/85757027b250fe23023b3d2249812dc241656546))
+* refactor container to be self-scaling ([576c15b](https://github.com/ollyrowe/tetris/commit/576c15befe55c3dc1ec946bdb0f2e0874c53a79e))
+
+
+### Features
+
+* add banner and pause button ([a992bb5](https://github.com/ollyrowe/tetris/commit/a992bb59638d323c3e9edcd27b216a82ff251ae0))
+* add support for svg files ([e8e371a](https://github.com/ollyrowe/tetris/commit/e8e371acae19e0c917224494237680746e7b7990))
+
 ## [1.1.3](https://github.com/ollyrowe/tetris/compare/v1.1.2...v1.1.3) (2023-09-03)
 
 
