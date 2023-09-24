@@ -1,24 +1,20 @@
-import React, { useMemo, useRef } from "react";
+import React, { useMemo } from "react";
 import { styled } from "styled-components";
-import { useWindowSize } from "../hooks/useWindowSize";
 import { useElementSize } from "../hooks/useElementSize";
 
 interface ContainerProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 /**
- * Container component that scales to fit the window.
+ * Container component that scales its contents to fit the available space.
  */
 const Container: React.FC<ContainerProps> = ({ children }) => {
-  const window = useWindowSize();
-
-  const ref = useRef<HTMLDivElement>(null);
-
-  const element = useElementSize(ref);
+  const outerElement = useElementSize<HTMLDivElement>();
+  const innerElement = useElementSize<HTMLDivElement>();
 
   const scaleProps = useMemo<ScaleDetails>(() => {
-    const { scale, origin } = getScale(window, element);
+    const { scale, origin } = getScale(outerElement, innerElement);
 
     // Prevent scaling up
     if (scale > 1) {
@@ -26,20 +22,22 @@ const Container: React.FC<ContainerProps> = ({ children }) => {
     }
 
     return { scale, origin };
-  }, [window, element]);
+  }, [outerElement, innerElement]);
 
   return (
-    <Contents ref={ref} {...scaleProps}>
-      {children}
-    </Contents>
+    <Wrapper ref={outerElement.ref}>
+      <Contents ref={innerElement.ref} {...scaleProps}>
+        {children}
+      </Contents>
+    </Wrapper>
   );
 };
 
 export default Container;
 
-const getScale = (window: Dimensions, element: Dimensions): ScaleDetails => {
-  const verticalScale = window.height / element.height;
-  const horizontalScale = window.width / element.width;
+const getScale = (outer: Dimensions, inner: Dimensions): ScaleDetails => {
+  const verticalScale = outer.height / inner.height;
+  const horizontalScale = outer.width / inner.width;
 
   if (verticalScale < horizontalScale) {
     return {
@@ -53,6 +51,15 @@ const getScale = (window: Dimensions, element: Dimensions): ScaleDetails => {
     scale: horizontalScale,
   };
 };
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+`;
 
 const Contents = styled.div<ScaleDetails>`
   display: flex;
