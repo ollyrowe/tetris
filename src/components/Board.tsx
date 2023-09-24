@@ -8,9 +8,10 @@ import { Tile } from "../types";
 interface Props {
   tiles: Tile[][];
   over: boolean;
+  paused: boolean;
 }
 
-const Board: React.FC<Props> = ({ tiles, over }) => {
+const Board: React.FC<Props> = ({ tiles, over, paused }) => {
   return (
     <StyledBox>
       {tiles.map((row, i) => (
@@ -20,7 +21,11 @@ const Board: React.FC<Props> = ({ tiles, over }) => {
           ))}
         </Row>
       ))}
-      {over && <OverText>Game Over</OverText>}
+      {over ? (
+        <Overlay>Game Over</Overlay>
+      ) : paused ? (
+        <Overlay>Paused</Overlay>
+      ) : null}
     </StyledBox>
   );
 };
@@ -44,7 +49,7 @@ const Row = styled.div`
   display: flex;
 `;
 
-const OverText = styled.div`
+const Overlay = styled.div`
   position: absolute;
   top: 0;
   width: 100%;

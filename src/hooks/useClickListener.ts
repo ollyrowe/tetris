@@ -1,11 +1,16 @@
 import { useEffect } from "react";
 
-export const useClickListener = (callback: (event: MouseEvent) => void) => {
+export const useClickListener = (
+  target: HTMLElement | null,
+  callback: (event: MouseEvent) => void
+) => {
   useEffect(() => {
-    window.addEventListener("click", callback);
+    if (target !== null) {
+      target.addEventListener("click", callback);
 
-    return () => {
-      window.removeEventListener("click", callback);
-    };
-  }, [callback]);
+      return () => {
+        target.removeEventListener("click", callback);
+      };
+    }
+  }, [target, callback]);
 };

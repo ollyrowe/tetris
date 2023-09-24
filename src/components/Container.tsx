@@ -1,6 +1,7 @@
-import React, { useMemo } from "react";
+import React, { forwardRef, useMemo } from "react";
 import { styled } from "styled-components";
 import { useElementSize } from "../hooks/useElementSize";
+import { mergeRefs } from "../utils/mergeRefs";
 
 interface ContainerProps {
   children?: React.ReactNode;
@@ -9,29 +10,31 @@ interface ContainerProps {
 /**
  * Container component that scales its contents to fit the available space.
  */
-const Container: React.FC<ContainerProps> = ({ children }) => {
-  const outerElement = useElementSize<HTMLDivElement>();
-  const innerElement = useElementSize<HTMLDivElement>();
+const Container = forwardRef<HTMLDivElement, ContainerProps>(
+  ({ children }, ref) => {
+    const outerElement = useElementSize<HTMLDivElement>();
+    const innerElement = useElementSize<HTMLDivElement>();
 
-  const scaleProps = useMemo<ScaleDetails>(() => {
-    const { scale, origin } = getScale(outerElement, innerElement);
+    const scaleProps = useMemo<ScaleDetails>(() => {
+      const { scale, origin } = getScale(outerElement, innerElement);
 
-    // Prevent scaling up
-    if (scale > 1) {
-      return { scale: 1, origin: "left" };
-    }
+      // Prevent scaling up
+      if (scale > 1) {
+        return { scale: 1, origin: "left" };
+      }
 
-    return { scale, origin };
-  }, [outerElement, innerElement]);
+      return { scale, origin };
+    }, [outerElement, innerElement]);
 
-  return (
-    <Wrapper ref={outerElement.ref}>
-      <Contents ref={innerElement.ref} {...scaleProps}>
-        {children}
-      </Contents>
-    </Wrapper>
-  );
-};
+    return (
+      <Wrapper ref={mergeRefs([ref, outerElement.ref])}>
+        <Contents ref={innerElement.ref} {...scaleProps}>
+          {children}
+        </Contents>
+      </Wrapper>
+    );
+  }
+);
 
 export default Container;
 

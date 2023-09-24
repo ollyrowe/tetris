@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import Background from "./components/Background";
+import Banner from "./components/Banner";
 import Container from "./components/Container";
 import Board from "./components/Board";
 import Score from "./components/Score";
@@ -13,14 +14,16 @@ import { useGame } from "./hooks/useGame";
 import { useControls } from "./hooks/useControls";
 
 const App: React.FC = () => {
-  const { tiles, stats, queue, heldTetrimino, controls, over } = useGame();
+  const { tiles, stats, queue, heldTetrimino, controls, over, paused } =
+    useGame();
 
-  useControls(controls);
+  const containerRef = useControls(controls);
 
   return (
     <ScreenTypeProvider>
       <Background>
-        <Container>
+        <Banner paused={paused} onTogglePause={controls.togglePause} />
+        <Container ref={containerRef}>
           <TopRow>
             <Score points={stats.points} />
           </TopRow>
@@ -30,7 +33,7 @@ const App: React.FC = () => {
               <Level level={stats.level} />
               <Lines lines={stats.lines} />
             </LeftColumn>
-            <Board tiles={tiles} over={over} />
+            <Board tiles={tiles} over={over} paused={paused} />
             <RightColumn>
               <Next queue={queue} />
             </RightColumn>

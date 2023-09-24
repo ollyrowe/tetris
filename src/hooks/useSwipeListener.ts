@@ -6,6 +6,7 @@ interface Options {
 }
 
 export const useSwipeListener = (
+  target: HTMLElement | null,
   callback: (direction: Direction) => void,
   options: Options
 ) => {
@@ -56,14 +57,16 @@ export const useSwipeListener = (
   }, []);
 
   useEffect(() => {
-    window.addEventListener("touchstart", handleTouchStart);
-    window.addEventListener("touchmove", handleTouchMove);
-    window.addEventListener("touchend", handleTouchEnd);
+    if (target !== null) {
+      target.addEventListener("touchstart", handleTouchStart);
+      target.addEventListener("touchmove", handleTouchMove);
+      target.addEventListener("touchend", handleTouchEnd);
 
-    return () => {
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleTouchEnd);
-    };
-  }, [handleTouchStart, handleTouchMove, handleTouchEnd]);
+      return () => {
+        target.removeEventListener("touchstart", handleTouchStart);
+        target.removeEventListener("touchmove", handleTouchMove);
+        target.removeEventListener("touchend", handleTouchEnd);
+      };
+    }
+  }, [target, handleTouchStart, handleTouchMove, handleTouchEnd]);
 };

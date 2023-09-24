@@ -31,6 +31,7 @@ const Image = styled.div`
   opacity: 0.85;
   filter: blur(12px);
   transform: scale(1.1);
+  z-index: -1;
 `;
 
 const Contents = styled.div`

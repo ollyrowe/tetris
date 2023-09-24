@@ -46,68 +46,6 @@ export const useGame = () => {
     [level]
   );
 
-  const moveTetrimino = useCallback(
-    (direction: MoveableDirection) => {
-      if (!over) {
-        const movedTetrimino = tetrimino.current.getMovedBlocks(direction);
-
-        // Ensure the updated blocks haven't gone outside the board or collided with another block
-        if (
-          !hasBreachedBoardBounds(movedTetrimino.blocks) &&
-          !hasCollision(movedTetrimino.blocks, blocks.current)
-        ) {
-          if (direction === "down") {
-            // The player is granted points for triggering a decent
-            addPoints(pointValues.drop);
-          }
-
-          tetrimino.current.move(direction);
-
-          updateTiles();
-        }
-      }
-    },
-    [addPoints, over]
-  );
-
-  const rotateTetrimino = () => {
-    if (!over) {
-      const rotatedBlocks = tetrimino.current.getRotatedBlocks();
-
-      // Ensure the updated blocks haven't gone outside the board or collided with another block
-      if (
-        !hasBreachedBoardBounds(rotatedBlocks) &&
-        !hasCollision(rotatedBlocks, blocks.current)
-      ) {
-        tetrimino.current.rotate();
-
-        updateTiles();
-      }
-    }
-  };
-
-  const holdTetrimino = () => {
-    // If the player hasn't already switched the held tetrimino
-    if (!over && !hasSwitchedHeldTetrimino.current) {
-      if (heldTetrimino) {
-        const currentlyHeldTetrimino = heldTetrimino;
-
-        setHeldTetrimino(tetrimino.current.type);
-
-        tetrimino.current = createTetrimino(currentlyHeldTetrimino);
-
-        hasSwitchedHeldTetrimino.current = true;
-      } else {
-        setHeldTetrimino(tetrimino.current.type);
-
-        // Set the next tetrimino type in the queue to be the current
-        tetrimino.current = getNextTetrimino();
-      }
-
-      updateTiles();
-    }
-  };
-
   const callback = useCallback<IntervalCallback>(
     ({ stop }) => {
       if (
@@ -169,11 +107,78 @@ export const useGame = () => {
     [getNextTetrimino, addPoints]
   );
 
-  useInterval(callback, levelSpeeds[level]);
+  const { paused, togglePause } = useInterval(callback, levelSpeeds[level]);
+
+  const moveTetrimino = useCallback(
+    (direction: MoveableDirection) => {
+      if (!over && !paused) {
+        const movedTetrimino = tetrimino.current.getMovedBlocks(direction);
+
+        // Ensure the updated blocks haven't gone outside the board or collided with another block
+        if (
+          !hasBreachedBoardBounds(movedTetrimino.blocks) &&
+          !hasCollision(movedTetrimino.blocks, blocks.current)
+        ) {
+          if (direction === "down") {
+            // The player is granted points for triggering a decent
+            addPoints(pointValues.drop);
+          }
+
+          tetrimino.current.move(direction);
+
+          updateTiles();
+        }
+      }
+    },
+    [addPoints, over, paused]
+  );
+
+  const rotateTetrimino = () => {
+    if (!over && !paused) {
+      const rotatedBlocks = tetrimino.current.getRotatedBlocks();
+
+      // Ensure the updated blocks haven't gone outside the board or collided with another block
+      if (
+        !hasBreachedBoardBounds(rotatedBlocks) &&
+        !hasCollision(rotatedBlocks, blocks.current)
+      ) {
+        tetrimino.current.rotate();
+
+        updateTiles();
+      }
+    }
+  };
+
+  const holdTetrimino = () => {
+    // If the player hasn't already switched the held tetrimino
+    if (!over && !paused && !hasSwitchedHeldTetrimino.current) {
+      if (heldTetrimino) {
+        const currentlyHeldTetrimino = heldTetrimino;
+
+        setHeldTetrimino(tetrimino.current.type);
+
+        tetrimino.current = createTetrimino(currentlyHeldTetrimino);
+
+        hasSwitchedHeldTetrimino.current = true;
+      } else {
+        setHeldTetrimino(tetrimino.current.type);
+
+        // Set the next tetrimino type in the queue to be the current
+        tetrimino.current = getNextTetrimino();
+      }
+
+      updateTiles();
+    }
+  };
 
   const stats = { points, lines, level };
 
-  const controls = { moveTetrimino, rotateTetrimino, holdTetrimino };
+  const controls = {
+    moveTetrimino,
+    rotateTetrimino,
+    holdTetrimino,
+    togglePause,
+  };
 
   return {
     stats,
@@ -182,6 +187,8 @@ export const useGame = () => {
     queue,
     heldTetrimino,
     controls,
+    paused,
+    togglePause,
   };
 };
 
