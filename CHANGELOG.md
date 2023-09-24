@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/ollyrowe/tetris/compare/v1.2.1...v1.2.2) (2023-09-24)
+
+
+### Bug Fixes
+
+* update svg imports to address breaking change ([513b752](https://github.com/ollyrowe/tetris/commit/513b752e123be62b689cf8895f27929ba79d1012))
+
 ## [1.2.1](https://github.com/ollyrowe/tetris/compare/v1.2.0...v1.2.1) (2023-09-24)
 
 
