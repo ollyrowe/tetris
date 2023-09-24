@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/ollyrowe/tetris/compare/v1.2.2...v1.3.0) (2023-09-24)
+
+
+### Features
+
+* add favicons and manifest ([0f5d39f](https://github.com/ollyrowe/tetris/commit/0f5d39f331bb0c863d09e5b8150f3267c4332f2f))
+
 ## [1.2.2](https://github.com/ollyrowe/tetris/compare/v1.2.1...v1.2.2) (2023-09-24)
 
 
