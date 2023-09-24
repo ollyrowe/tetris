@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
-import { ReactComponent as Play } from "../assets/play.svg";
-import { ReactComponent as Pause } from "../assets/pause.svg";
+import Play from "../assets/play.svg?react";
+import Pause from "../assets/pause.svg?react";
 
 interface Props {
   paused: boolean;
