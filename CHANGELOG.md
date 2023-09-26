@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/ollyrowe/tetris/compare/v1.3.0...v1.3.1) (2023-09-26)
+
+
+### Bug Fixes
+
+* add start url to manifest ([1cbefb7](https://github.com/ollyrowe/tetris/commit/1cbefb739335db460ba95f0fce6e552accdf22b1))
+
 # [1.3.0](https://github.com/ollyrowe/tetris/compare/v1.2.2...v1.3.0) (2023-09-24)
 
 
