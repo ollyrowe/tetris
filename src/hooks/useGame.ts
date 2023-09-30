@@ -322,11 +322,11 @@ const getLevel = (lines: number): Level => {
     return 1;
   } else if (lines < 20) {
     return 2;
-  } else if (lines < 30) {
+  } else if (lines < 35) {
     return 3;
-  } else if (lines < 40) {
+  } else if (lines < 55) {
     return 4;
-  } else if (lines < 50) {
+  } else if (lines < 80) {
     return 5;
   }
 
