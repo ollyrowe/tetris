@@ -107,7 +107,15 @@ export const useGame = () => {
     [getNextTetrimino, addPoints]
   );
 
-  const { paused, pause, play } = useInterval(callback, levelSpeeds[level]);
+  const gameLoop = useInterval(callback, levelSpeeds[level]);
+
+  const { paused, pause } = gameLoop;
+
+  const play = () => {
+    if (!over) {
+      gameLoop.play();
+    }
+  };
 
   const moveTetrimino = useCallback(
     (direction: MoveableDirection) => {
