@@ -1,9 +1,9 @@
 import React from "react";
 import { styled } from "styled-components";
-import Box from "./Box";
-import Block from "./Block";
-import Placeholder from "./Placeholder";
-import { Tile } from "../types";
+import Box from "../layout/Box";
+import Block from "../misc/Block";
+import Placeholder from "../misc/Placeholder";
+import { Tile } from "../../types";
 
 interface Props {
   tiles: Tile[][];

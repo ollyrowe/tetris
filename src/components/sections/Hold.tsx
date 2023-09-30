@@ -1,7 +1,7 @@
 import React from "react";
-import Box from "./Box";
-import Preview from "./Preview";
-import { TetriminoType } from "../model";
+import Box from "../layout/Box";
+import Preview from "../misc/Preview";
+import { TetriminoType } from "../../model";
 
 interface Props {
   type?: TetriminoType;

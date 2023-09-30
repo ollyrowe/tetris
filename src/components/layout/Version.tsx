@@ -1,6 +1,6 @@
 import React from "react";
 import { styled } from "styled-components";
-import { version } from "../../package.json";
+import { version } from "../../../package.json";
 
 const Version: React.FC = () => {
   return <Container>{`v${version}`}</Container>;

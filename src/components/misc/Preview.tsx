@@ -2,9 +2,9 @@ import React from "react";
 import { styled } from "styled-components";
 import Block from "./Block";
 import Placeholder from "./Placeholder";
-import { useScreenType } from "../providers";
-import { Tetrimino, TetriminoType, createTetrimino } from "../model";
-import { Tile } from "../types";
+import { useScreenType } from "../../providers";
+import { Tetrimino, TetriminoType, createTetrimino } from "../../model";
+import { Tile } from "../../types";
 
 interface Props {
   type?: TetriminoType;

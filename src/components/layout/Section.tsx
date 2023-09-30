@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import Box from "./Box";
-import { ScreenType, useScreenType } from "../providers";
+import { ScreenType, useScreenType } from "../../providers";
 
 interface Props {
   title: string;

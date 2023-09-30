@@ -1,7 +1,7 @@
 import React, { forwardRef, useMemo } from "react";
 import { styled } from "styled-components";
-import { useElementSize } from "../hooks/useElementSize";
-import { mergeRefs } from "../utils/mergeRefs";
+import { useElementSize } from "../../hooks/useElementSize";
+import { mergeRefs } from "../../utils/mergeRefs";
 
 interface ContainerProps {
   children?: React.ReactNode;

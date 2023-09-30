@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import Title from "./Title";
-import PauseButton from "./PauseButton";
+import PauseButton from "../misc/PauseButton";
 
 interface BannerProps {
   paused: boolean;

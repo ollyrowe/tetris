@@ -1,6 +1,6 @@
 import React from "react";
 import { styled } from "styled-components";
-import { TetriminoType } from "../model";
+import { TetriminoType } from "../../model";
 
 interface Props {
   type: TetriminoType;

@@ -1,5 +1,5 @@
 import React from "react";
-import Section from "./Section";
+import Section from "../layout/Section";
 
 interface Props {
   level: number;

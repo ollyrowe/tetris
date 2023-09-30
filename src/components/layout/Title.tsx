@@ -1,6 +1,6 @@
 import React from "react";
 import { styled } from "styled-components";
-import { useScreenType, ScreenType } from "../providers";
+import { useScreenType, ScreenType } from "../../providers";
 
 const Title: React.FC = () => {
   const screenType = useScreenType();

@@ -1,6 +1,6 @@
 import React from "react";
 import { styled } from "styled-components";
-import Box from "./Box";
+import Box from "../layout/Box";
 
 interface Props {
   points: number;
