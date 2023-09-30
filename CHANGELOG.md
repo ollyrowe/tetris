@@ -1,3 +1,16 @@
+# [1.4.0](https://github.com/ollyrowe/tetris/compare/v1.3.2...v1.4.0) (2023-09-30)
+
+
+### Bug Fixes
+
+* increase required lines for higher levels ([4f6e6e9](https://github.com/ollyrowe/tetris/commit/4f6e6e98a9f833ec6e357d4abc21a1ff8a9c6758))
+* prevent game being unpaused once over ([dc22678](https://github.com/ollyrowe/tetris/commit/dc226789262d3c15ff5b46612de786bb05b74fcc))
+
+
+### Features
+
+* add game version number ([4eb7506](https://github.com/ollyrowe/tetris/commit/4eb7506dd9be03e1705da3303c085a55e561492e))
+
 ## [1.3.2](https://github.com/ollyrowe/tetris/compare/v1.3.1...v1.3.2) (2023-09-30)
 
 
