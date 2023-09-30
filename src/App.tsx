@@ -9,6 +9,7 @@ import Next from "./components/Next";
 import Hold from "./components/Hold";
 import Level from "./components/Level";
 import Lines from "./components/Lines";
+import Version from "./components/Version";
 import { ScreenTypeProvider, useScreenType } from "./providers";
 import { useGame } from "./hooks/useGame";
 import { useControls } from "./hooks/useControls";
@@ -39,6 +40,7 @@ const App: React.FC = () => {
             </RightColumn>
           </BottomRow>
         </Container>
+        <Version />
       </Background>
     </ScreenTypeProvider>
   );
