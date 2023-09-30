@@ -1,12 +1,11 @@
 import React from "react";
 import Section from "../layout/Section";
+import { useGameContext } from "../../providers";
 
-interface Props {
-  level: number;
-}
+const Level: React.FC = () => {
+  const { stats } = useGameContext();
 
-const Level: React.FC<Props> = ({ level }) => {
-  return <Section title="Level">{level}</Section>;
+  return <Section title="Level">{stats.level}</Section>;
 };
 
 export default Level;

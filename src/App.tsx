@@ -10,38 +10,33 @@ import Hold from "./components/sections/Hold";
 import Level from "./components/sections/Level";
 import Lines from "./components/sections/Lines";
 import Version from "./components/layout/Version";
-import { ScreenTypeProvider, useScreenType } from "./providers";
-import { useGame } from "./hooks/useGame";
-import { useControls } from "./hooks/useControls";
+import { GameProvider, ScreenTypeProvider, useScreenType } from "./providers";
 
 const App: React.FC = () => {
-  const { tiles, stats, queue, heldTetrimino, controls, over, paused } =
-    useGame();
-
-  const containerRef = useControls(controls);
-
   return (
     <ScreenTypeProvider>
-      <Background>
-        <Banner paused={paused} pause={controls.pause} play={controls.play} />
-        <Container ref={containerRef}>
-          <TopRow>
-            <Score points={stats.points} />
-          </TopRow>
-          <BottomRow>
-            <LeftColumn>
-              <Hold type={heldTetrimino} />
-              <Level level={stats.level} />
-              <Lines lines={stats.lines} />
-            </LeftColumn>
-            <Board tiles={tiles} over={over} paused={paused} />
-            <RightColumn>
-              <Next queue={queue} />
-            </RightColumn>
-          </BottomRow>
-        </Container>
-        <Version />
-      </Background>
+      <GameProvider>
+        <Background>
+          <Banner />
+          <Container>
+            <TopRow>
+              <Score />
+            </TopRow>
+            <BottomRow>
+              <LeftColumn>
+                <Hold />
+                <Level />
+                <Lines />
+              </LeftColumn>
+              <Board />
+              <RightColumn>
+                <Next />
+              </RightColumn>
+            </BottomRow>
+          </Container>
+          <Version />
+        </Background>
+      </GameProvider>
     </ScreenTypeProvider>
   );
 };

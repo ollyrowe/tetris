@@ -1,16 +1,14 @@
 import React from "react";
 import Box from "../layout/Box";
 import Preview from "../misc/Preview";
-import { TetriminoType } from "../../model";
+import { useGameContext } from "../../providers";
 
-interface Props {
-  type?: TetriminoType;
-}
+const Hold: React.FC = () => {
+  const { heldTetrimino } = useGameContext();
 
-const Hold: React.FC<Props> = ({ type }) => {
   return (
     <Box title="Hold">
-      <Preview type={type} />
+      <Preview type={heldTetrimino} />
     </Box>
   );
 };

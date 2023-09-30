@@ -1,12 +1,11 @@
 import React from "react";
 import Section from "../layout/Section";
+import { useGameContext } from "../../providers";
 
-interface Props {
-  lines: number;
-}
+const Lines: React.FC = () => {
+  const { stats } = useGameContext();
 
-const Lines: React.FC<Props> = ({ lines }) => {
-  return <Section title="Lines">{lines}</Section>;
+  return <Section title="Lines">{stats.lines}</Section>;
 };
 
 export default Lines;

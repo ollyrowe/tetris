@@ -3,15 +3,12 @@ import { styled } from "styled-components";
 import Box from "../layout/Box";
 import Block from "../misc/Block";
 import Placeholder from "../misc/Placeholder";
+import { useGameContext } from "../../providers";
 import { Tile } from "../../types";
 
-interface Props {
-  tiles: Tile[][];
-  over: boolean;
-  paused: boolean;
-}
+const Board: React.FC = () => {
+  const { tiles, over, paused } = useGameContext();
 
-const Board: React.FC<Props> = ({ tiles, over, paused }) => {
   return (
     <StyledBox>
       {tiles.map((row, i) => (

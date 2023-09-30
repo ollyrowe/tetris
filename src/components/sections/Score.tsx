@@ -1,13 +1,12 @@
 import React from "react";
 import { styled } from "styled-components";
 import Box from "../layout/Box";
+import { useGameContext } from "../../providers";
 
-interface Props {
-  points: number;
-}
+const Score: React.FC = () => {
+  const { stats } = useGameContext();
 
-const Score: React.FC<Props> = ({ points }) => {
-  return <StyledBox title="Score">{points}</StyledBox>;
+  return <StyledBox title="Score">{stats.points}</StyledBox>;
 };
 
 export default Score;

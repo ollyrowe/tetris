@@ -2,19 +2,16 @@ import React from "react";
 import { styled } from "styled-components";
 import Title from "./Title";
 import PauseButton from "../misc/PauseButton";
+import { useGameContext } from "../../providers";
 
-interface BannerProps {
-  paused: boolean;
-  pause: () => void;
-  play: () => void;
-}
+const Banner: React.FC = () => {
+  const { controls, paused } = useGameContext();
 
-const Banner: React.FC<BannerProps> = ({ paused, pause, play }) => {
   const togglePause = () => {
     if (paused) {
-      play();
+      controls.play();
     } else {
-      pause();
+      controls.pause();
     }
   };
 

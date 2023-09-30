@@ -1,7 +1,9 @@
-import React, { forwardRef, useMemo } from "react";
+import React, { useMemo } from "react";
 import { styled } from "styled-components";
 import { useElementSize } from "../../hooks/useElementSize";
 import { mergeRefs } from "../../utils/mergeRefs";
+import { useGameContext } from "../../providers";
+import { useControls } from "../../hooks/useControls";
 
 interface ContainerProps {
   children?: React.ReactNode;
@@ -10,31 +12,33 @@ interface ContainerProps {
 /**
  * Container component that scales its contents to fit the available space.
  */
-const Container = forwardRef<HTMLDivElement, ContainerProps>(
-  ({ children }, ref) => {
-    const outerElement = useElementSize<HTMLDivElement>();
-    const innerElement = useElementSize<HTMLDivElement>();
+const Container: React.FC<ContainerProps> = ({ children }) => {
+  const { controls } = useGameContext();
 
-    const scaleProps = useMemo<ScaleDetails>(() => {
-      const { scale, origin } = getScale(outerElement, innerElement);
+  const controlsRef = useControls(controls);
 
-      // Prevent scaling up
-      if (scale > 1) {
-        return { scale: 1, origin: "left" };
-      }
+  const outerElement = useElementSize<HTMLDivElement>();
+  const innerElement = useElementSize<HTMLDivElement>();
 
-      return { scale, origin };
-    }, [outerElement, innerElement]);
+  const scaleProps = useMemo<ScaleDetails>(() => {
+    const { scale, origin } = getScale(outerElement, innerElement);
 
-    return (
-      <Wrapper ref={mergeRefs([ref, outerElement.ref])}>
-        <Contents ref={innerElement.ref} {...scaleProps}>
-          {children}
-        </Contents>
-      </Wrapper>
-    );
-  }
-);
+    // Prevent scaling up
+    if (scale > 1) {
+      return { scale: 1, origin: "left" };
+    }
+
+    return { scale, origin };
+  }, [outerElement, innerElement]);
+
+  return (
+    <Wrapper ref={mergeRefs([controlsRef, outerElement.ref])}>
+      <Contents ref={innerElement.ref} {...scaleProps}>
+        {children}
+      </Contents>
+    </Wrapper>
+  );
+};
 
 export default Container;
 
