@@ -1,14 +1,12 @@
 import React from "react";
 import { styled } from "styled-components";
-import Play from "../../assets/play.svg?react";
 import Pause from "../../assets/pause.svg?react";
 
 interface Props {
-  paused: boolean;
   onClick: () => void;
 }
 
-const PauseButton: React.FC<Props> = ({ paused, onClick }) => {
+const PauseButton: React.FC<Props> = ({ onClick }) => {
   const onMouseDown = (event: React.MouseEvent<HTMLButtonElement>) => {
     // Prevent the button from stealing focus from the game container
     event.preventDefault();
@@ -16,7 +14,7 @@ const PauseButton: React.FC<Props> = ({ paused, onClick }) => {
 
   return (
     <Button onClick={onClick} onMouseDown={onMouseDown}>
-      {paused ? <PlayIcon /> : <PauseIcon />}
+      <PauseIcon />
     </Button>
   );
 };
@@ -34,12 +32,6 @@ const Button = styled.button`
   margin-bottom: auto;
   padding: 6px;
   box-shadow: 1px 1px 12px 0px black;
-`;
-
-const PlayIcon = styled(Play)`
-  fill: white;
-  width: 100%;
-  height: 100%;
 `;
 
 const PauseIcon = styled(Pause)`

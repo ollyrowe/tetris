@@ -7,27 +7,16 @@ import { useGameContext } from "../../providers";
 const Banner: React.FC = () => {
   const { controls, status } = useGameContext();
 
-  const playing = status === "playing";
-  const paused = status === "paused";
-
-  const displayPauseButton = playing || paused;
-
-  const togglePause = () => {
-    if (paused) {
-      controls.play();
-    } else {
-      controls.pause();
-    }
-  };
+  const displayPauseButton = status === "playing" || status === "paused";
 
   return (
     <Container>
       {displayPauseButton && (
-        <PauseButton paused={paused} onClick={togglePause} />
+        <PauseButton paused={status === "paused"} onClick={controls.pause} />
       )}
       <Title />
       {displayPauseButton && (
-        <PauseButton paused={paused} onClick={togglePause} />
+        <PauseButton paused={status === "paused"} onClick={controls.pause} />
       )}
     </Container>
   );
