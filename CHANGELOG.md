@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/ollyrowe/tetris/compare/v1.6.0...v1.6.1) (2023-10-07)
+
+
+### Bug Fixes
+
+* fix reoccurring quit menu issue ([140895e](https://github.com/ollyrowe/tetris/commit/140895e009b059b336da25a4d8d57698166327ec))
+
 # [1.6.0](https://github.com/ollyrowe/tetris/compare/v1.5.0...v1.6.0) (2023-10-07)
 
 
