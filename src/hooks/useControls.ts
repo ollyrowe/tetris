@@ -35,9 +35,13 @@ export const useControls = (controls: Controls) => {
           break;
         case "KeyH":
           holdTetrimino();
+          break;
+        case "Escape":
+          pause();
+          break;
       }
     },
-    [moveTetrimino, rotateTetrimino, holdTetrimino]
+    [moveTetrimino, rotateTetrimino, holdTetrimino, pause]
   );
 
   useKeydownListener(handleKeyDown);
