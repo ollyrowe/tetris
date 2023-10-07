@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/ollyrowe/tetris/compare/v1.4.0...v1.5.0) (2023-10-07)
+
+
+### Features
+
+* add game menus ([380621c](https://github.com/ollyrowe/tetris/commit/380621ca9c8dc4a0abe8cb05e59c80e022d05af3))
+
 # [1.4.0](https://github.com/ollyrowe/tetris/compare/v1.3.2...v1.4.0) (2023-09-30)
 
 
