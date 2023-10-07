@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/ollyrowe/tetris/compare/v1.5.0...v1.6.0) (2023-10-07)
+
+
+### Features
+
+* allow for game to be paused with escape ([d40a340](https://github.com/ollyrowe/tetris/commit/d40a340215851ac33cf2272ee2a4fe7fb7c70aaf))
+
 # [1.5.0](https://github.com/ollyrowe/tetris/compare/v1.4.0...v1.5.0) (2023-10-07)
 
 
