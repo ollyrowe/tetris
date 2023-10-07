@@ -5,7 +5,12 @@ import PauseButton from "../misc/PauseButton";
 import { useGameContext } from "../../providers";
 
 const Banner: React.FC = () => {
-  const { controls, paused } = useGameContext();
+  const { controls, status } = useGameContext();
+
+  const playing = status === "playing";
+  const paused = status === "paused";
+
+  const displayPauseButton = playing || paused;
 
   const togglePause = () => {
     if (paused) {
@@ -17,9 +22,13 @@ const Banner: React.FC = () => {
 
   return (
     <Container>
-      <PauseButton paused={paused} onClick={togglePause} />
+      {displayPauseButton && (
+        <PauseButton paused={paused} onClick={togglePause} />
+      )}
       <Title />
-      <PauseButton paused={paused} onClick={togglePause} />
+      {displayPauseButton && (
+        <PauseButton paused={paused} onClick={togglePause} />
+      )}
     </Container>
   );
 };

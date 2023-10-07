@@ -1,24 +1,37 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useStateRef } from "./useStateRef";
-import { createTetrimino, getRandomTetriminoType } from "../model";
+import {
+  TetriminoType,
+  createTetrimino,
+  getRandomTetriminoType,
+} from "../model";
 
 /**
  * Represents the queue of upcoming tetriminos to be placed
  */
 export const useTetriminoQueue = () => {
-  const [queue, setQueue, queueRef] = useStateRef(createItems());
+  const [items, setItems, itemsRef] = useStateRef<TetriminoType[]>([]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const initialise = useCallback(() => setItems(createItems()), []);
 
   const getNextTetrimino = useCallback(() => {
-    const nextTetrimino = createTetrimino(queueRef.current[0]);
+    const nextTetrimino = createTetrimino(itemsRef.current[0]);
 
     // Remove the first item from the queue and a new one to the end
-    setQueue((queue) => [...queue.slice(1), getRandomTetriminoType()]);
+    setItems((items) => [...items.slice(1), getRandomTetriminoType()]);
 
     return nextTetrimino;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { queue, getNextTetrimino };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const reset = useCallback(() => setItems([]), []);
+
+  return useMemo(
+    () => ({ items, initialise, getNextTetrimino, reset }),
+    [items, initialise, getNextTetrimino, reset]
+  );
 };
 
 const createItems = () => {

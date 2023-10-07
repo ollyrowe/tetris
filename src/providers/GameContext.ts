@@ -8,6 +8,8 @@ export const GameContext = createContext<ReturnType<typeof useGame>>({
     moveTetrimino: () => undefined,
     holdTetrimino: () => undefined,
     rotateTetrimino: () => undefined,
+    start: () => undefined,
+    quit: () => undefined,
   },
   heldTetrimino: undefined,
   queue: [],
@@ -17,8 +19,8 @@ export const GameContext = createContext<ReturnType<typeof useGame>>({
     points: 0,
   },
   tiles: [],
-  over: false,
-  paused: false,
+  highScores: [],
+  status: "idle",
 });
 
 export const useGameContext = () => useContext(GameContext);

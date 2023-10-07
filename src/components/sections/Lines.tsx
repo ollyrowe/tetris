@@ -3,9 +3,11 @@ import Section from "../layout/Section";
 import { useGameContext } from "../../providers";
 
 const Lines: React.FC = () => {
-  const { stats } = useGameContext();
+  const { status, stats } = useGameContext();
 
-  return <Section title="Lines">{stats.lines}</Section>;
+  return (
+    <Section title="Lines">{status === "idle" ? "-" : stats.lines}</Section>
+  );
 };
 
 export default Lines;

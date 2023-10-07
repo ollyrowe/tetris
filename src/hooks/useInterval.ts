@@ -3,41 +3,25 @@ import { useEffect, useCallback, useState, useRef } from "react";
 export const useInterval = (callback: IntervalCallback, delay: number) => {
   const interval = useRef<number>();
 
-  const [paused, setPaused] = useState(false);
+  const [paused, setPaused] = useState(true);
 
-  const handler = useCallback(
-    () =>
-      callback({
-        stop: () => {
-          setPaused(true);
-          clearInterval(interval.current);
-        },
-      }),
-    [callback]
-  );
+  const pause = useCallback(() => setPaused(true), []);
 
-  const pause = () => {
-    setPaused(true);
-    clearInterval(interval.current);
-  };
+  const play = useCallback(() => setPaused(false), []);
 
-  const play = () => {
-    setPaused(false);
-    interval.current = setInterval(handler, delay);
-  };
+  const handler = useCallback(() => callback({ pause }), [callback, pause]);
 
-  /**
-   * Setup the interval.
-   */
   useEffect(() => {
     clearInterval(interval.current);
 
-    interval.current = setInterval(handler, delay);
+    if (!paused) {
+      interval.current = setInterval(handler, delay);
+    }
 
     return () => clearInterval(interval.current);
-  }, [handler, delay]);
+  }, [paused, handler, delay]);
 
   return { paused, pause, play };
 };
 
-export type IntervalCallback = (options: { stop: () => void }) => void;
+export type IntervalCallback = (options: { pause: () => void }) => void;

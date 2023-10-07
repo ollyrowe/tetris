@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import { useInterval, IntervalCallback } from "./useInterval";
 import { useTetriminoQueue } from "./useTetriminoQueue";
+import { useHighScores } from "./useHighScores";
 import { Tetrimino, createTetrimino, TetriminoType } from "../model";
 import { Block, Guide, MoveableDirection, Tile } from "../types";
 
@@ -11,17 +12,17 @@ export const useGame = () => {
   // The number of complete rows the player has made
   const [lines, setLines] = useState(0);
 
-  // The current speed level the player is on
-  const level = getLevel(lines);
+  // The current speed level that the game is set to
+  const [level, setLevel] = useState<Level>(1);
 
-  // Whether the game is over
-  const [over, setOver] = useState(false);
+  // The current status of the game
+  const [status, setStatus] = useState<GameStatus>("idle");
 
   // The placed blocks
   const blocks = useRef<Block[]>([]);
 
   // The queue of upcoming tetriminos to be placed
-  const { queue, getNextTetrimino } = useTetriminoQueue();
+  const queue = useTetriminoQueue();
 
   // The current tetrimino being placed
   const tetrimino = useRef(createTetrimino());
@@ -35,6 +36,9 @@ export const useGame = () => {
   // The tiles representing the game board
   const [tiles, setTiles] = useState(createTiles());
 
+  // The past high scores
+  const { highScores, recordScore } = useHighScores();
+
   const updateTiles = () => {
     setTiles(createTiles(blocks.current, tetrimino.current));
   };
@@ -47,7 +51,7 @@ export const useGame = () => {
   );
 
   const callback = useCallback<IntervalCallback>(
-    ({ stop }) => {
+    ({ pause }) => {
       if (
         hasBlockBelowTetrimino(blocks.current, tetrimino.current) ||
         hasReachedBoardBottom(tetrimino.current)
@@ -55,15 +59,18 @@ export const useGame = () => {
         blocks.current.push(...tetrimino.current.blocks);
 
         // Set the next tetrimino type in the queue to be the current
-        tetrimino.current = getNextTetrimino();
+        tetrimino.current = queue.getNextTetrimino();
 
         // Reset the has switched held tetrimino state
         hasSwitchedHeldTetrimino.current = false;
 
+        // If the newly placed tetrimino has already collided with another block then the game is over
         if (hasCollision(tetrimino.current.blocks, blocks.current)) {
-          setOver(true);
+          setStatus("over");
 
-          return stop();
+          recordScore(points);
+
+          return pause();
         }
 
         const completedRows = findCompletedRows(blocks.current);
@@ -80,7 +87,15 @@ export const useGame = () => {
           );
 
           // Update the completed lines
-          setLines((lines) => lines + 1);
+          setLines(lines + 1);
+
+          // Calculate the current level based on the current number of lines completed
+          const nextLevel = getLevel(lines);
+
+          // If the game was started at a level other than 1 then the current level might be higher than the completed lines would suggest
+          if (nextLevel > level) {
+            setLevel(nextLevel);
+          }
         }
 
         // Add the appropriate number of points
@@ -104,22 +119,70 @@ export const useGame = () => {
 
       updateTiles();
     },
-    [getNextTetrimino, addPoints]
+    [queue, addPoints, level, lines, points, recordScore]
   );
 
   const gameLoop = useInterval(callback, levelSpeeds[level]);
 
-  const { paused, pause } = gameLoop;
+  const pause = () => {
+    if (status === "playing") {
+      gameLoop.pause();
+
+      setStatus("paused");
+    }
+  };
 
   const play = () => {
-    if (!over) {
+    if (status === "paused") {
       gameLoop.play();
+
+      setStatus("playing");
     }
+  };
+
+  /**
+   * Resets the game state
+   */
+  const reset = () => {
+    gameLoop.pause();
+
+    setLevel(1);
+    setLines(0);
+    setPoints(0);
+    setHeldTetrimino(undefined);
+
+    queue.reset();
+
+    blocks.current = [];
+    tetrimino.current = createTetrimino();
+    hasSwitchedHeldTetrimino.current = false;
+
+    setTiles(createTiles());
+  };
+
+  const start = (level: Level = 1) => {
+    reset();
+
+    setLevel(level);
+
+    queue.initialise();
+
+    updateTiles();
+
+    gameLoop.play();
+
+    setStatus("playing");
+  };
+
+  const quit = () => {
+    reset();
+
+    setStatus("idle");
   };
 
   const moveTetrimino = useCallback(
     (direction: MoveableDirection) => {
-      if (!over && !paused) {
+      if (status === "playing") {
         const movedTetrimino = tetrimino.current.getMovedBlocks(direction);
 
         // Ensure the updated blocks haven't gone outside the board or collided with another block
@@ -138,11 +201,11 @@ export const useGame = () => {
         }
       }
     },
-    [addPoints, over, paused]
+    [addPoints, status]
   );
 
   const rotateTetrimino = () => {
-    if (!over && !paused) {
+    if (status === "playing") {
       const rotatedBlocks = tetrimino.current.getRotatedBlocks();
 
       // Ensure the updated blocks haven't gone outside the board or collided with another block
@@ -159,7 +222,7 @@ export const useGame = () => {
 
   const holdTetrimino = () => {
     // If the player hasn't already switched the held tetrimino
-    if (!over && !paused && !hasSwitchedHeldTetrimino.current) {
+    if (status === "playing" && !hasSwitchedHeldTetrimino.current) {
       if (heldTetrimino) {
         const currentlyHeldTetrimino = heldTetrimino;
 
@@ -172,7 +235,7 @@ export const useGame = () => {
         setHeldTetrimino(tetrimino.current.type);
 
         // Set the next tetrimino type in the queue to be the current
-        tetrimino.current = getNextTetrimino();
+        tetrimino.current = queue.getNextTetrimino();
       }
 
       updateTiles();
@@ -187,16 +250,18 @@ export const useGame = () => {
     holdTetrimino,
     pause,
     play,
+    start,
+    quit,
   };
 
   return {
+    status,
     stats,
-    over,
     tiles,
-    queue,
+    queue: queue.items,
     heldTetrimino,
     controls,
-    paused,
+    highScores,
   };
 };
 
@@ -353,4 +418,6 @@ const pointValues = {
 // Board configs
 const board = { width: 10, height: 20 };
 
-type Level = 1 | 2 | 3 | 4 | 5 | 6;
+export type GameStatus = "playing" | "paused" | "over" | "idle";
+
+export type Level = 1 | 2 | 3 | 4 | 5 | 6;

@@ -4,9 +4,13 @@ import Box from "../layout/Box";
 import { useGameContext } from "../../providers";
 
 const Score: React.FC = () => {
-  const { stats } = useGameContext();
+  const { status, stats } = useGameContext();
 
-  return <StyledBox title="Score">{stats.points}</StyledBox>;
+  return (
+    <StyledBox title="Score">
+      {status === "idle" ? "-" : stats.points}
+    </StyledBox>
+  );
 };
 
 export default Score;
