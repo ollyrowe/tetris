@@ -1,18 +1,16 @@
 import React from "react";
 import Menu from "./Menu";
 import Button from "./Button";
-import { useGameContext } from "../../providers";
 
 interface QuitMenuProps {
+  onConfirm: () => void;
   onCancel: () => void;
 }
 
-const QuitMenu: React.FC<QuitMenuProps> = ({ onCancel }) => {
-  const { controls } = useGameContext();
-
+const QuitMenu: React.FC<QuitMenuProps> = ({ onConfirm, onCancel }) => {
   return (
     <Menu title="Quit Game?">
-      <Button label="Ok" colour="grey" onClick={controls.quit} />
+      <Button label="Ok" colour="grey" onClick={onConfirm} />
       <Button label="Cancel" colour="grey" onClick={onCancel} />
     </Menu>
   );

@@ -12,17 +12,27 @@ import { useGameContext } from "../../providers";
 import { Tile } from "../../types";
 
 const Board: React.FC = () => {
-  const { tiles, status } = useGameContext();
+  const { tiles, status, controls } = useGameContext();
 
-  // Whether the quit menu should be displayed
-  const [displayQuit, setDisplayQuit] = useState(false);
+  // Whether the confirm quit menu should be displayed
+  const [displayConfirmQuit, setDisplayConfirmQuit] = useState(false);
+
+  const onPlay = () => {
+    controls.play();
+  };
 
   const onQuit = () => {
-    setDisplayQuit(true);
+    setDisplayConfirmQuit(true);
+  };
+
+  const onConfirmQuit = () => {
+    controls.quit();
+
+    setDisplayConfirmQuit(false);
   };
 
   const onCancelQuit = () => {
-    setDisplayQuit(false);
+    setDisplayConfirmQuit(false);
   };
 
   const getMenu = (status: GameStatus) => {
@@ -32,10 +42,10 @@ const Board: React.FC = () => {
       case "over":
         return <OverMenu />;
       case "paused":
-        return displayQuit ? (
-          <QuitMenu onCancel={onCancelQuit} />
+        return displayConfirmQuit ? (
+          <QuitMenu onConfirm={onConfirmQuit} onCancel={onCancelQuit} />
         ) : (
-          <PauseMenu onQuit={onQuit} />
+          <PauseMenu onPlay={onPlay} onQuit={onQuit} />
         );
     }
   };

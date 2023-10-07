@@ -1,18 +1,16 @@
 import React from "react";
 import Menu from "./Menu";
 import Button from "./Button";
-import { useGameContext } from "../../providers";
 
 interface PauseMenuProps {
+  onPlay: () => void;
   onQuit: () => void;
 }
 
-const PauseMenu: React.FC<PauseMenuProps> = ({ onQuit }) => {
-  const { controls } = useGameContext();
-
+const PauseMenu: React.FC<PauseMenuProps> = ({ onPlay, onQuit }) => {
   return (
     <Menu title="Paused">
-      <Button label="Resume" colour="green" onClick={controls.play} />
+      <Button label="Resume" colour="green" onClick={onPlay} />
       <Button label="Quit" colour="grey" onClick={onQuit} />
     </Menu>
   );
