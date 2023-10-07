@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/ollyrowe/tetris/compare/v1.6.1...v1.7.0) (2023-10-07)
+
+
+### Features
+
+* add countdown when resuming play ([9204483](https://github.com/ollyrowe/tetris/commit/92044834c293b8f8afba3c533e2d69e4fb68f9c6))
+
 ## [1.6.1](https://github.com/ollyrowe/tetris/compare/v1.6.0...v1.6.1) (2023-10-07)
 
 
