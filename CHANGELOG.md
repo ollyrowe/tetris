@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/ollyrowe/tetris/compare/v1.7.0...v1.7.1) (2023-10-08)
+
+
+### Bug Fixes
+
+* remove unnecessary pause button prop ([53728b8](https://github.com/ollyrowe/tetris/commit/53728b84e40d5f50fae0987f2d4cf081cc469bd8))
+
 # [1.7.0](https://github.com/ollyrowe/tetris/compare/v1.6.1...v1.7.0) (2023-10-07)
 
 
