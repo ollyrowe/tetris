@@ -11,13 +11,9 @@ const Banner: React.FC = () => {
 
   return (
     <Container>
-      {displayPauseButton && (
-        <PauseButton paused={status === "paused"} onClick={controls.pause} />
-      )}
+      {displayPauseButton && <PauseButton onClick={controls.pause} />}
       <Title />
-      {displayPauseButton && (
-        <PauseButton paused={status === "paused"} onClick={controls.pause} />
-      )}
+      {displayPauseButton && <PauseButton onClick={controls.pause} />}
     </Container>
   );
 };
