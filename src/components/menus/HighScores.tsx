@@ -3,17 +3,24 @@ import { styled } from "styled-components";
 import { useGameContext } from "../../providers";
 
 const HighScores: React.FC = () => {
-  const { highScores } = useGameContext();
+  const { highScores, stats } = useGameContext();
 
   return (
     <Container>
       <Title>High Scores</Title>
       <List>
-        {new Array(5).fill(0).map((_, index) => (
-          <Item key={index} index={index}>
-            {highScores[index] || "-"}
-          </Item>
-        ))}
+        {new Array(5).fill(0).map((_, index) => {
+          const score = highScores[index];
+
+          // If this score represents a newly-set high score
+          const isNewHighScore = score === stats.points;
+
+          return (
+            <Item key={index} index={index} bold={isNewHighScore}>
+              {score || "-"}
+            </Item>
+          );
+        })}
       </List>
     </Container>
   );
@@ -53,6 +60,7 @@ const List = styled.ol`
 
 interface ItemProps {
   index: number;
+  bold: boolean;
 }
 
 const Item = styled.li<ItemProps>`
@@ -63,4 +71,5 @@ const Item = styled.li<ItemProps>`
   background-color: ${({ index }) =>
     index % 2 === 0 ? "#3a3a3a64" : "#3a3a3a"};
   padding: 4px;
+  font-weight: ${(props) => (props.bold ? "bold" : "normal")};
 `;
