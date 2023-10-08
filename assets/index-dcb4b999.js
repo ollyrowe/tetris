@@ -168,7 +168,7 @@ Error generating stack: `+l.message+`
   padding: 16px;
   width: 100%;
   box-sizing: border-box;
-`,hd=()=>{const{highScores:e}=Xe();return C.jsxs(K0,{children:[C.jsx(G0,{children:"High Scores"}),C.jsx(X0,{children:new Array(5).fill(0).map((t,n)=>C.jsx(Z0,{index:n,children:e[n]||"-"},n))})]})},K0=I.div`
+`,hd=()=>{const{highScores:e,stats:t}=Xe();return C.jsxs(K0,{children:[C.jsx(G0,{children:"High Scores"}),C.jsx(X0,{children:new Array(5).fill(0).map((n,r)=>{const o=e[r],l=o===t.points;return C.jsx(Z0,{index:r,bold:l,children:o||"-"},r)})})]})},K0=I.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -199,6 +199,7 @@ Error generating stack: `+l.message+`
   box-sizing: border-box;
   background-color: ${({index:e})=>e%2===0?"#3a3a3a64":"#3a3a3a"};
   padding: 4px;
+  font-weight: ${e=>e.bold?"bold":"normal"};
 `,Dt=({label:e,colour:t,size:n="medium",onClick:r})=>C.jsx(J0,{colour:t,size:n,onClick:r,children:e}),J0=I.button`
   display: flex;
   justify-content: center;
@@ -258,7 +259,7 @@ Error generating stack: `+l.message+`
   margin-top: 24px;
   min-width: 50px;
   text-align: center;
-`,C1=()=>{const{status:e,stats:t}=Xe();return C.jsx(gd,{title:"Level",children:e==="idle"?"-":t.level})},E1=()=>{const{status:e,stats:t}=Xe();return C.jsx(gd,{title:"Lines",children:e==="idle"?"-":t.lines})},_1="1.7.1",P1=()=>C.jsx(T1,{children:`v${_1}`}),T1=I.div`
+`,C1=()=>{const{status:e,stats:t}=Xe();return C.jsx(gd,{title:"Level",children:e==="idle"?"-":t.level})},E1=()=>{const{status:e,stats:t}=Xe();return C.jsx(gd,{title:"Lines",children:e==="idle"?"-":t.lines})},_1="1.8.0",P1=()=>C.jsx(T1,{children:`v${_1}`}),T1=I.div`
   font-family: monospace;
   position: absolute;
   bottom: 0;
