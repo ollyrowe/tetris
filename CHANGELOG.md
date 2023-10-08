@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/ollyrowe/tetris/compare/v1.7.1...v1.8.0) (2023-10-08)
+
+
+### Features
+
+* add bold text to new high scores ([ea597ea](https://github.com/ollyrowe/tetris/commit/ea597ea499593260c6a346abadbd7d6374bcf166))
+
 ## [1.7.1](https://github.com/ollyrowe/tetris/compare/v1.7.0...v1.7.1) (2023-10-08)
 
 
