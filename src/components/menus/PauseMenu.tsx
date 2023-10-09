@@ -11,7 +11,7 @@ interface PauseMenuProps {
 
 const PauseMenu: React.FC<PauseMenuProps> = ({ onPlay, onQuit }) => {
   // Countdown from 3 seconds to be started when resuming the game
-  const resumeCountdown = useCountdown(onPlay, 3);
+  const resumeCountdown = useCountdown(onPlay, 3, { interval: 750 });
 
   // Render a title when the countdown isn't active
   const title = !resumeCountdown.active ? "Paused" : undefined;
