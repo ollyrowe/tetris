@@ -2,13 +2,14 @@ import React from "react";
 import { styled } from "styled-components";
 import Box from "../layout/Box";
 import { useGameContext } from "../../providers";
+import { formatNumber } from "../../utils/formatNumber";
 
 const Score: React.FC = () => {
   const { status, stats } = useGameContext();
 
   return (
     <StyledBox title="Score">
-      {status === "idle" ? "-" : stats.points}
+      {status === "idle" ? "-" : formatNumber(stats.points)}
     </StyledBox>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import { useGameContext } from "../../providers";
+import { formatNumber } from "../../utils/formatNumber";
 
 const HighScores: React.FC = () => {
   const { highScores, stats } = useGameContext();
@@ -17,7 +18,7 @@ const HighScores: React.FC = () => {
 
           return (
             <Item key={index} index={index} bold={isNewHighScore}>
-              {score || "-"}
+              {getScoreText(score)}
             </Item>
           );
         })}
@@ -73,3 +74,11 @@ const Item = styled.li<ItemProps>`
   padding: 4px;
   font-weight: ${(props) => (props.bold ? "bold" : "normal")};
 `;
+
+const getScoreText = (score?: number) => {
+  if (typeof score === "undefined") {
+    return "-";
+  }
+
+  return formatNumber(score);
+};
