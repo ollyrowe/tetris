@@ -1,3 +1,11 @@
+## [1.9.1](https://github.com/ollyrowe/tetris/compare/v1.9.0...v1.9.1) (2023-10-10)
+
+
+### Bug Fixes
+
+* centrally align pause button ([2d35718](https://github.com/ollyrowe/tetris/commit/2d35718161e8b12be72a5d42ed9f0a005ccc4dee))
+* reduce background blur ([36364cd](https://github.com/ollyrowe/tetris/commit/36364cd5e3faf8736c2e240c4e8727762443f679))
+
 # [1.9.0](https://github.com/ollyrowe/tetris/compare/v1.8.0...v1.9.0) (2023-10-10)
 
 
