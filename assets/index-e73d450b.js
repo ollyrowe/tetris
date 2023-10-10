@@ -51,7 +51,7 @@ Error generating stack: `+l.message+`
   background-size: cover;
   background-position: center;
   opacity: 0.85;
-  filter: blur(12px);
+  filter: blur(10px);
   transform: scale(1.1);
   z-index: -1;
 `,bm=I.div`
@@ -231,7 +231,7 @@ Error generating stack: `+l.message+`
   margin-top: 24px;
   min-width: 50px;
   text-align: center;
-`,y1=()=>{const{status:e,stats:t}=Xe();return C.jsx(gd,{title:"Level",children:e==="idle"?"-":t.level})},w1=()=>{const{status:e,stats:t}=Xe();return C.jsx(gd,{title:"Lines",children:e==="idle"?"-":t.lines})},x1="1.9.0",S1=()=>C.jsx(k1,{children:`v${x1}`}),k1=I.div`
+`,y1=()=>{const{status:e,stats:t}=Xe();return C.jsx(gd,{title:"Level",children:e==="idle"?"-":t.level})},w1=()=>{const{status:e,stats:t}=Xe();return C.jsx(gd,{title:"Lines",children:e==="idle"?"-":t.lines})},x1="1.9.1",S1=()=>C.jsx(k1,{children:`v${x1}`}),k1=I.div`
   font-family: monospace;
   position: absolute;
   bottom: 0;
@@ -263,6 +263,8 @@ Error generating stack: `+l.message+`
     "left-column center right-column";
 `,N1=({children:e})=>{const t=Ur();return C.jsx(vd,{align:"center",gridArea:"top-row",anchor:t!=="desktop"?"bottom":void 0,children:e})},L1=I.div`
   grid-area: top-right;
+  display: flex;
+  justify-content: center;
 `,R1=I.div`
   grid-area: center;
 `,$1=({children:e})=>{const t=Ur();return C.jsx(yd,{align:"end",gridArea:"left-column",anchor:t!=="desktop"?"right":void 0,children:e})},j1=({children:e})=>{const t=Ur();return C.jsx(yd,{gridArea:"right-column",anchor:t!=="desktop"?"left":void 0,children:e})},vd=I.div`
