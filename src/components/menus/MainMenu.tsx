@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 import Menu from "./Menu";
 import HighScores from "./HighScores";
 import Button from "./Button";
+import Logo from "../misc/Logo";
 import { useGameContext } from "../../providers";
 import { Level } from "../../hooks/useGame";
 
@@ -22,6 +23,7 @@ const MainMenu: React.FC = () => {
   return (
     <Menu>
       <ButtonContainer>
+        <Logo />
         <Button label="Play" colour="green" size="large" onClick={start} />
         <Button
           label={`Level ${selectedLevel}`}

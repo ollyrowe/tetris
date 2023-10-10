@@ -1,7 +1,6 @@
 import React from "react";
 import { styled } from "styled-components";
 import Background from "./components/layout/Background";
-import Banner from "./components/layout/Banner";
 import Container from "./components/layout/Container";
 import Board from "./components/sections/Board";
 import Score from "./components/sections/Score";
@@ -18,7 +17,6 @@ const App: React.FC = () => {
     <ScreenTypeProvider>
       <GameProvider>
         <Background>
-          <Banner />
           <Container>
             <Grid>
               <TopRow>
