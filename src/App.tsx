@@ -76,6 +76,8 @@ const TopRow: React.FC<TopRowProps> = ({ children }) => {
 
 const TopRight = styled.div`
   grid-area: top-right;
+  display: flex;
+  justify-content: center;
 `;
 
 const Center = styled.div`
