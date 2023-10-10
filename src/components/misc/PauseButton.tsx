@@ -1,21 +1,22 @@
 import React from "react";
 import { styled } from "styled-components";
 import Pause from "../../assets/pause.svg?react";
+import { useGameContext } from "../../providers";
 
-interface Props {
-  onClick: () => void;
-}
+const PauseButton: React.FC = () => {
+  const { status, controls } = useGameContext();
 
-const PauseButton: React.FC<Props> = ({ onClick }) => {
   const onMouseDown = (event: React.MouseEvent<HTMLButtonElement>) => {
     // Prevent the button from stealing focus from the game container
     event.preventDefault();
   };
 
   return (
-    <Button onClick={onClick} onMouseDown={onMouseDown}>
-      <PauseIcon />
-    </Button>
+    status !== "idle" && (
+      <Button onMouseDown={onMouseDown} onClick={controls.pause}>
+        <PauseIcon />
+      </Button>
+    )
   );
 };
 

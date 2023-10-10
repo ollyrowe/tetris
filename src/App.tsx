@@ -10,6 +10,7 @@ import Hold from "./components/sections/Hold";
 import Level from "./components/sections/Level";
 import Lines from "./components/sections/Lines";
 import Version from "./components/layout/Version";
+import PauseButton from "./components/misc/PauseButton";
 import { GameProvider, ScreenTypeProvider, useScreenType } from "./providers";
 
 const App: React.FC = () => {
@@ -19,20 +20,25 @@ const App: React.FC = () => {
         <Background>
           <Banner />
           <Container>
-            <TopRow>
-              <Score />
-            </TopRow>
-            <BottomRow>
+            <Grid>
+              <TopRow>
+                <Score />
+              </TopRow>
+              <TopRight>
+                <PauseButton />
+              </TopRight>
               <LeftColumn>
                 <Hold />
                 <Level />
                 <Lines />
               </LeftColumn>
-              <Board />
+              <Center>
+                <Board />
+              </Center>
               <RightColumn>
                 <Next />
               </RightColumn>
-            </BottomRow>
+            </Grid>
           </Container>
           <Version />
         </Background>
@@ -42,6 +48,15 @@ const App: React.FC = () => {
 };
 
 export default App;
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-areas:
+    "top-left top-row top-right"
+    "left-column center right-column"
+    "left-column center right-column"
+    "left-column center right-column";
+`;
 
 interface TopRowProps {
   children: React.ReactNode;
@@ -53,6 +68,7 @@ const TopRow: React.FC<TopRowProps> = ({ children }) => {
   return (
     <Box
       align="center"
+      gridArea="top-row"
       anchor={screenType !== "desktop" ? "bottom" : undefined}
     >
       {children}
@@ -60,9 +76,12 @@ const TopRow: React.FC<TopRowProps> = ({ children }) => {
   );
 };
 
-const BottomRow = styled.div`
-  display: flex;
-  margin: auto;
+const TopRight = styled.div`
+  grid-area: top-right;
+`;
+
+const Center = styled.div`
+  grid-area: center;
 `;
 
 interface ColumnProps {
@@ -73,7 +92,11 @@ const LeftColumn: React.FC<ColumnProps> = ({ children }) => {
   const screenType = useScreenType();
 
   return (
-    <Column align="end" anchor={screenType !== "desktop" ? "right" : undefined}>
+    <Column
+      align="end"
+      gridArea="left-column"
+      anchor={screenType !== "desktop" ? "right" : undefined}
+    >
       {children}
     </Column>
   );
@@ -83,7 +106,10 @@ const RightColumn: React.FC<ColumnProps> = ({ children }) => {
   const screenType = useScreenType();
 
   return (
-    <Column anchor={screenType !== "desktop" ? "left" : undefined}>
+    <Column
+      gridArea="right-column"
+      anchor={screenType !== "desktop" ? "left" : undefined}
+    >
       {children}
     </Column>
   );
@@ -91,6 +117,7 @@ const RightColumn: React.FC<ColumnProps> = ({ children }) => {
 
 interface BoxProps {
   align?: string;
+  gridArea?: string;
   anchor?: "bottom" | "left" | "right";
 }
 
@@ -98,6 +125,7 @@ const Box = styled.div<BoxProps>`
   display: flex;
   flex-direction: column;
   align-items: ${(props) => props.align};
+  grid-area: ${(props) => props.gridArea};
   margin: ${(props) => (props.anchor ? "auto" : "16px")};
   margin-left: ${(props) => props.anchor === "left" && "-8px"};
   margin-right: ${(props) => props.anchor === "right" && "-8px"};
@@ -105,6 +133,5 @@ const Box = styled.div<BoxProps>`
 `;
 
 const Column = styled(Box)`
-  height: 100%;
   margin-top: 24px;
 `;
