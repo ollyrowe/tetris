@@ -29,7 +29,7 @@ const Image = styled.div`
   background-size: cover;
   background-position: center;
   opacity: 0.85;
-  filter: blur(12px);
+  filter: blur(10px);
   transform: scale(1.1);
   z-index: -1;
 `;
