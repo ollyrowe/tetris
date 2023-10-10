@@ -1,3 +1,17 @@
+# [1.9.0](https://github.com/ollyrowe/tetris/compare/v1.8.0...v1.9.0) (2023-10-10)
+
+
+### Bug Fixes
+
+* move pause button to game area ([9d2cce3](https://github.com/ollyrowe/tetris/commit/9d2cce312ba4d81757bddb5c2c1255ba0d3c3465))
+* reduce resume countdown length ([ff5082f](https://github.com/ollyrowe/tetris/commit/ff5082f292e403f3b28c59a02f9903fc79e868b3))
+
+
+### Features
+
+* add comma separation to score numbers ([ac34a41](https://github.com/ollyrowe/tetris/commit/ac34a4107a83a272323d3a8a0a980d4342718f9e))
+* move logo to main menu ([443a9df](https://github.com/ollyrowe/tetris/commit/443a9dffb37334c4e7decd502de90fb6faf7138e))
+
 # [1.8.0](https://github.com/ollyrowe/tetris/compare/v1.7.1...v1.8.0) (2023-10-08)
 
 
