@@ -2,59 +2,97 @@ import { useEffect, useCallback, useRef } from "react";
 import { Direction } from "../types";
 
 interface Options {
-  threshold: { [direction in Direction]: number };
+  threshold: number;
 }
 
 export const useSwipeListener = (
   target: HTMLElement | null,
-  callback: (direction: Direction) => void,
+  callback: (event: SwipeEvent) => void,
   options: Options
 ) => {
-  const touchStart = useRef({ x: 0, y: 0 });
-  const touchEnd = useRef({ x: 0, y: 0 });
+  // The position of the initial touch event
+  const initialTouch = useRef<Position>({ x: 0, y: 0 });
+  // The position of the previous touch event
+  const previousTouch = useRef<Position>({ x: 0, y: 0 });
+  // The position of the latest touch event
+  const latestTouch = useRef<Position>({ x: 0, y: 0 });
+
+  // The time in which the initial touch event occurred
+  const touchInitialTime = useRef(0);
+
+  const getSwipeDirection = useCallback(
+    (start: Position, end: Position) => {
+      const xDelta = Math.abs(start.x - end.x);
+      const yDelta = Math.abs(start.y - end.y);
+
+      // Only consider the axis that has the largest delta
+      if (xDelta > yDelta) {
+        if (start.x - end.x > options.threshold) {
+          return "left";
+        }
+
+        if (end.x - start.x > options.threshold) {
+          return "right";
+        }
+      } else {
+        if (start.y - end.y > options.threshold) {
+          return "up";
+        }
+
+        if (end.y - start.y > options.threshold) {
+          return "down";
+        }
+      }
+    },
+    [options]
+  );
 
   const handleTouchStart = useCallback((e: TouchEvent) => {
     const touch = e.targetTouches[0];
 
-    touchStart.current = { x: touch.clientX, y: touch.clientY };
+    const position = { x: touch.clientX, y: touch.clientY };
+
+    initialTouch.current = position;
+    previousTouch.current = position;
+    latestTouch.current = position;
+
+    touchInitialTime.current = new Date().getTime();
   }, []);
 
   const handleTouchMove = useCallback(
     (e: TouchEvent) => {
       const touch = e.targetTouches[0];
 
-      touchEnd.current = { x: touch.clientX, y: touch.clientY };
+      latestTouch.current = { x: touch.clientX, y: touch.clientY };
 
-      if (touchStart.current.x - touchEnd.current.x > options.threshold.left) {
-        callback("left");
+      const direction = getSwipeDirection(
+        previousTouch.current,
+        latestTouch.current
+      );
 
-        touchStart.current = touchEnd.current;
-      }
+      if (direction) {
+        callback({ type: "move", direction });
 
-      if (touchEnd.current.x - touchStart.current.x > options.threshold.right) {
-        callback("right");
-
-        touchStart.current = touchEnd.current;
-      }
-
-      if (touchStart.current.y - touchEnd.current.y > options.threshold.up) {
-        callback("up");
-
-        touchStart.current = touchEnd.current;
-      }
-
-      if (touchEnd.current.y - touchStart.current.y > options.threshold.down) {
-        callback("down");
-
-        touchStart.current = touchEnd.current;
+        previousTouch.current = latestTouch.current;
       }
     },
-    [callback, options.threshold]
+    [callback, getSwipeDirection]
   );
 
   const handleTouchEnd = useCallback(() => {
-    touchEnd.current = { x: 0, y: 0 };
-  }, []);
+    const direction = getSwipeDirection(
+      initialTouch.current,
+      latestTouch.current
+    );
+
+    if (direction) {
+      const currentTime = new Date().getTime();
+
+      const duration = currentTime - touchInitialTime.current;
+
+      callback({ type: "end", direction, duration });
+    }
+  }, [callback, getSwipeDirection]);
 
   useEffect(() => {
     if (target !== null) {
@@ -70,3 +108,13 @@ export const useSwipeListener = (
     }
   }, [target, handleTouchStart, handleTouchMove, handleTouchEnd]);
 };
+
+type Position = { x: number; y: number };
+
+type BaseSwipeEvent<T, S = object> = { type: T; direction: Direction } & S;
+
+type SwipeMoveEvent = BaseSwipeEvent<"move">;
+
+type SwipeEndEvent = BaseSwipeEvent<"end", { duration: number }>;
+
+export type SwipeEvent = SwipeMoveEvent | SwipeEndEvent;

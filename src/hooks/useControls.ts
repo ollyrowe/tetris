@@ -1,12 +1,15 @@
 import { useCallback, useRef } from "react";
 import { useKeydownListener } from "./useKeyboardListener";
-import { useSwipeListener } from "./useSwipeListener";
-import { Direction, MoveableDirection } from "../types";
+import { SwipeEvent, useSwipeListener } from "./useSwipeListener";
+import { MoveableDirection } from "../types";
 import { useClickListener } from "./useClickListener";
 import { usePageBlurListener } from "./usePageBlurListener";
 
 interface Controls {
   moveTetrimino: (direction: MoveableDirection) => void;
+  softDropTetrimino: () => void;
+  hardDropTetrimino: () => void;
+  cancelSoftDrop: () => void;
   rotateTetrimino: () => void;
   holdTetrimino: () => void;
   pause: () => void;
@@ -16,7 +19,15 @@ export const useControls = (controls: Controls) => {
   // The ref to be bound to the DOM element that will receive the event listeners
   const ref = useRef<HTMLDivElement>(null);
 
-  const { moveTetrimino, rotateTetrimino, holdTetrimino, pause } = controls;
+  const {
+    moveTetrimino,
+    softDropTetrimino,
+    hardDropTetrimino,
+    cancelSoftDrop,
+    rotateTetrimino,
+    holdTetrimino,
+    pause,
+  } = controls;
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
@@ -47,19 +58,42 @@ export const useControls = (controls: Controls) => {
   useKeydownListener(handleKeyDown);
 
   const handleSwipe = useCallback(
-    (direction: Direction) => {
-      if (direction === "up") {
-        holdTetrimino();
-      } else {
-        moveTetrimino(direction);
+    (event: SwipeEvent) => {
+      switch (event.direction) {
+        case "down":
+          if (event.type === "end" && event.duration < 300) {
+            return hardDropTetrimino();
+          }
+
+          if (event.type === "end") {
+            return cancelSoftDrop();
+          }
+
+          return softDropTetrimino();
+        case "up":
+          if (event.type === "end") {
+            holdTetrimino();
+          }
+
+          break;
+        default:
+          if (event.type === "move") {
+            moveTetrimino(event.direction);
+          }
+
+          break;
       }
     },
-    [holdTetrimino, moveTetrimino]
+    [
+      softDropTetrimino,
+      hardDropTetrimino,
+      cancelSoftDrop,
+      holdTetrimino,
+      moveTetrimino,
+    ]
   );
 
-  useSwipeListener(ref.current, handleSwipe, {
-    threshold: { left: 20, right: 20, up: 80, down: 5 },
-  });
+  useSwipeListener(ref.current, handleSwipe, { threshold: 20 });
 
   useClickListener(ref.current, rotateTetrimino);
 

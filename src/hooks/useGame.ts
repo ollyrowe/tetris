@@ -39,6 +39,9 @@ export const useGame = () => {
   // The past high scores
   const { highScores, recordScore } = useHighScores();
 
+  // The ID of the current soft drop interval
+  const softDropInterval = useRef<number>();
+
   const updateTiles = () => {
     setTiles(createTiles(blocks.current, tetrimino.current));
   };
@@ -180,6 +183,17 @@ export const useGame = () => {
     setStatus("idle");
   };
 
+  const clearSoftDropInterval = useCallback(() => {
+    clearInterval(softDropInterval.current);
+    softDropInterval.current = undefined;
+  }, []);
+
+  const cancelSoftDrop = useCallback(() => {
+    clearSoftDropInterval();
+
+    gameLoop.play();
+  }, [clearSoftDropInterval, gameLoop]);
+
   const moveTetrimino = useCallback(
     (direction: MoveableDirection) => {
       if (status === "playing") {
@@ -192,17 +206,63 @@ export const useGame = () => {
         ) {
           if (direction === "down") {
             // The player is granted points for triggering a decent
-            addPoints(pointValues.drop);
+            addPoints(pointValues.softDrop);
           }
 
           tetrimino.current.move(direction);
 
           updateTiles();
+        } else {
+          // Cancel the soft drop if there is one
+          cancelSoftDrop();
         }
       }
     },
-    [addPoints, status]
+    [status, addPoints, cancelSoftDrop]
   );
+
+  const softDropTetrimino = useCallback(() => {
+    if (status === "playing") {
+      // If not already performing a soft drop
+      if (typeof softDropInterval.current === "undefined") {
+        // Pause game loop to take control of the tetrimino
+        gameLoop.pause();
+
+        // Move the tetrimino down every 50 milliseconds
+        softDropInterval.current = setInterval(() => moveTetrimino("down"), 50);
+      }
+    }
+  }, [status, gameLoop, moveTetrimino]);
+
+  const hardDropTetrimino = useCallback(() => {
+    if (status === "playing") {
+      // Pause game loop to take control of the tetrimino
+      gameLoop.pause();
+
+      // Stop the soft drop loop if it is running
+      clearSoftDropInterval();
+
+      // Drop the tetrimino to the bottom of the board
+      const droppedTetrimino = getDroppedTetrimino(
+        tetrimino.current,
+        blocks.current
+      );
+
+      // Calculate the distance the tetrimino has dropped
+      const droppedDistance =
+        droppedTetrimino.center.y - tetrimino.current.center.y;
+
+      // Add the appropriate number of points
+      addPoints(pointValues.hardDrop * droppedDistance);
+
+      tetrimino.current = droppedTetrimino;
+
+      updateTiles();
+
+      // Resume the game loop immediately
+      gameLoop.play({ immediate: true });
+    }
+  }, [status, clearSoftDropInterval, addPoints, gameLoop]);
 
   const rotateTetrimino = () => {
     if (status === "playing") {
@@ -246,6 +306,9 @@ export const useGame = () => {
 
   const controls = {
     moveTetrimino,
+    softDropTetrimino,
+    hardDropTetrimino,
+    cancelSoftDrop,
     rotateTetrimino,
     holdTetrimino,
     pause,
@@ -273,20 +336,7 @@ const createTiles = (blocks: Block[] = [], tetrimino?: Tetrimino) => {
 
   // If a tetrimino has been provided, figure out where the guide should go
   if (tetrimino) {
-    let guideTetrimino = tetrimino;
-    let shiftedTetrimino = tetrimino;
-
-    // Move the tetrimino down until a collision is detected
-    while (
-      !hasCollision(shiftedTetrimino.blocks, blocks) &&
-      !hasBreachedBoardBounds(shiftedTetrimino.blocks)
-    ) {
-      guideTetrimino = shiftedTetrimino;
-
-      shiftedTetrimino = shiftedTetrimino.clone();
-
-      shiftedTetrimino.move("down");
-    }
+    const guideTetrimino = getDroppedTetrimino(tetrimino, blocks);
 
     guideTetrimino.blocks.forEach((block) => {
       guides.push(block);
@@ -324,6 +374,25 @@ const createTiles = (blocks: Block[] = [], tetrimino?: Tetrimino) => {
   }
 
   return rows;
+};
+
+const getDroppedTetrimino = (tetrimino: Tetrimino, blocks: Block[]) => {
+  let droppedTetrimino = tetrimino;
+  let shiftedTetrimino = tetrimino;
+
+  // Move the tetrimino down until a collision is detected
+  while (
+    !hasCollision(shiftedTetrimino.blocks, blocks) &&
+    !hasBreachedBoardBounds(shiftedTetrimino.blocks)
+  ) {
+    droppedTetrimino = shiftedTetrimino;
+
+    shiftedTetrimino = shiftedTetrimino.clone();
+
+    shiftedTetrimino.move("down");
+  }
+
+  return droppedTetrimino;
 };
 
 const hasBreachedBoardBounds = (blocks: Block[]) => {
@@ -408,7 +477,8 @@ const levelSpeeds: { [level in Level]: number } = {
 };
 
 const pointValues = {
-  drop: 1,
+  softDrop: 1,
+  hardDrop: 2,
   singleLineClear: 100,
   doubleLineClear: 300,
   tripleLineClear: 500,

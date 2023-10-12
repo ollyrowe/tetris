@@ -3,11 +3,14 @@ import { useGame } from "../hooks/useGame";
 
 export const GameContext = createContext<ReturnType<typeof useGame>>({
   controls: {
-    play: () => undefined,
-    pause: () => undefined,
     moveTetrimino: () => undefined,
-    holdTetrimino: () => undefined,
+    softDropTetrimino: () => undefined,
+    hardDropTetrimino: () => undefined,
+    cancelSoftDrop: () => undefined,
     rotateTetrimino: () => undefined,
+    holdTetrimino: () => undefined,
+    pause: () => undefined,
+    play: () => undefined,
     start: () => undefined,
     quit: () => undefined,
   },
