@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/ollyrowe/tetris/compare/v1.9.1...v1.10.0) (2023-10-12)
+
+
+### Features
+
+* add soft and hard drop controls ([024fb1d](https://github.com/ollyrowe/tetris/commit/024fb1dcb3a5b9e76e15067503607ffbf9e97ce4))
+
 ## [1.9.1](https://github.com/ollyrowe/tetris/compare/v1.9.0...v1.9.1) (2023-10-10)
 
 
