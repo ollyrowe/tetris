@@ -4,6 +4,7 @@ import { useTetriminoQueue } from "./useTetriminoQueue";
 import { useHighScores } from "./useHighScores";
 import { Tetrimino, createTetrimino, TetriminoType } from "../model";
 import { Block, Guide, MoveableDirection, Tile } from "../types";
+import { board } from "../constants";
 
 export const useGame = () => {
   // The number of points the player has
@@ -484,9 +485,6 @@ const pointValues = {
   tripleLineClear: 500,
   tetrisLineClear: 800,
 };
-
-// Board configs
-const board = { width: 10, height: 20 };
 
 export type GameStatus = "playing" | "paused" | "over" | "idle";
 
