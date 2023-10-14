@@ -75,7 +75,7 @@ export const useControls = (controls: Controls) => {
             holdTetrimino();
           }
 
-          break;
+          return cancelSoftDrop();
         default:
           if (event.type === "move") {
             moveTetrimino(event.direction);
