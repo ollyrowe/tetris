@@ -56,23 +56,56 @@ export class Tetrimino {
     if (this.type !== "O") {
       this.blocks = this.getRotatedBlocks();
 
+      this.center = this.getRotatedCenter();
+
       this.orientation = getNextClockwiseDirection(this.orientation);
     }
   }
 
   public getRotatedBlocks() {
-    return this.blocks.map((block) => {
+    // The "I" tetrimino is the only one that rotates counter clockwise
+    const direction = this.type === "I" ? "counter-clockwise" : "clockwise";
+
+    const rotatedBlocks = this.blocks.map((block) => {
       const delta = {
         x: block.x - this.center.x,
         y: block.y - this.center.y,
       };
 
-      return {
-        ...block,
-        x: this.center.x - delta.y,
-        y: this.center.y + delta.x,
-      };
+      if (direction === "clockwise") {
+        return {
+          ...block,
+          x: this.center.x - delta.y,
+          y: this.center.y + delta.x,
+        };
+      } else {
+        return {
+          ...block,
+          x: this.center.x + delta.y,
+          y: this.center.y - delta.x,
+        };
+      }
     });
+
+    return rotatedBlocks;
+  }
+
+  public getRotatedCenter() {
+    // The "I" tetrimino is the only one with a different center after rotation
+    if (this.type === "I") {
+      switch (this.orientation) {
+        case "up":
+          return { x: this.center.x, y: this.center.y + 1 };
+        case "right":
+          return { x: this.center.x - 1, y: this.center.y };
+        case "down":
+          return { x: this.center.x, y: this.center.y - 1 };
+        case "left":
+          return { x: this.center.x + 1, y: this.center.y };
+      }
+    }
+
+    return this.center;
   }
 
   public clone(): Tetrimino {
@@ -84,7 +117,7 @@ const createTetriminoBlocks = (type: TetriminoType) => {
   switch (type) {
     case "I":
       return {
-        center: { x: 4, y: 1 },
+        center: { x: 5, y: 0 },
         blocks: [
           { type, x: 3, y: 0 },
           { type, x: 4, y: 0 },
