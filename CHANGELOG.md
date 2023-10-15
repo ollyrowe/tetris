@@ -1,3 +1,14 @@
+## [1.10.1](https://github.com/ollyrowe/tetris/compare/v1.10.0...v1.10.1) (2023-10-15)
+
+
+### Bug Fixes
+
+* allow tetrimino to be rotated at board edge ([f705970](https://github.com/ollyrowe/tetris/commit/f705970b49190e971ea637c0aaa05a953f3e2229))
+* fix i tetrimino starting position ([ac76ef7](https://github.com/ollyrowe/tetris/commit/ac76ef7656757274d94d67b6bba8aa2d5a72208c))
+* fix persisting soft drop after hold ([be5efff](https://github.com/ollyrowe/tetris/commit/be5efff98dff3796c691e5a24c5fdbcdcd234ef1))
+* fix the rotation of the i tetrimino ([c48db22](https://github.com/ollyrowe/tetris/commit/c48db2201bb189205c1023907805e23004992177))
+* fix z tetrimino center of rotation ([f78c151](https://github.com/ollyrowe/tetris/commit/f78c15188f65ab5d14ebc272a34a4aab4a0ece9d))
+
 # [1.10.0](https://github.com/ollyrowe/tetris/compare/v1.9.1...v1.10.0) (2023-10-12)
 
 
