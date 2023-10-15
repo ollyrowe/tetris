@@ -1,3 +1,12 @@
+## [1.10.2](https://github.com/ollyrowe/tetris/compare/v1.10.1...v1.10.2) (2023-10-15)
+
+
+### Bug Fixes
+
+* prevent displaying hold when game is over ([34a5ddc](https://github.com/ollyrowe/tetris/commit/34a5ddc7efcdce80295dad59d70a83a34d67ff0c))
+* prevent displaying queue when game is over ([1fef122](https://github.com/ollyrowe/tetris/commit/1fef122d503a0355922badbe2af300e9b9f92b0c))
+* update desktop controls ([8fb5fc5](https://github.com/ollyrowe/tetris/commit/8fb5fc526281f622e5608ad8888284c09a5b1159))
+
 ## [1.10.1](https://github.com/ollyrowe/tetris/compare/v1.10.0...v1.10.1) (2023-10-15)
 
 
