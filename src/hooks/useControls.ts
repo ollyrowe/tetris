@@ -41,18 +41,22 @@ export const useControls = (controls: Controls) => {
         case "ArrowDown":
           moveTetrimino("down");
           break;
-        case "Space":
+        case "ArrowUp":
           rotateTetrimino();
           break;
+        case "KeyC":
         case "KeyH":
           holdTetrimino();
+          break;
+        case "Space":
+          hardDropTetrimino();
           break;
         case "Escape":
           pause();
           break;
       }
     },
-    [moveTetrimino, rotateTetrimino, holdTetrimino, pause]
+    [moveTetrimino, rotateTetrimino, holdTetrimino, hardDropTetrimino, pause]
   );
 
   useKeydownListener(handleKeyDown);
