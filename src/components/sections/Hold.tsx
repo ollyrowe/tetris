@@ -4,11 +4,11 @@ import Preview from "../misc/Preview";
 import { useGameContext } from "../../providers";
 
 const Hold: React.FC = () => {
-  const { heldTetrimino } = useGameContext();
+  const { status, heldTetrimino } = useGameContext();
 
   return (
     <Box title="Hold">
-      <Preview type={heldTetrimino} />
+      <Preview type={status !== "over" ? heldTetrimino : undefined} />
     </Box>
   );
 };
