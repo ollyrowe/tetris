@@ -117,12 +117,12 @@ const createTetriminoBlocks = (type: TetriminoType) => {
   switch (type) {
     case "I":
       return {
-        center: { x: 5, y: 0 },
+        center: { x: 5, y: 1 },
         blocks: [
-          { type, x: 3, y: 0 },
-          { type, x: 4, y: 0 },
-          { type, x: 5, y: 0 },
-          { type, x: 6, y: 0 },
+          { type, x: 3, y: 1 },
+          { type, x: 4, y: 1 },
+          { type, x: 5, y: 1 },
+          { type, x: 6, y: 1 },
         ],
       };
     case "O":
