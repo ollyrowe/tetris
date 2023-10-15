@@ -267,7 +267,7 @@ export const useGame = () => {
 
   const rotateTetrimino = () => {
     if (status === "playing") {
-      const rotatedBlocks = tetrimino.current.getRotatedBlocks();
+      const { rotatedBlocks } = tetrimino.current.getRotatedState();
 
       // Ensure the updated blocks haven't gone outside the board or collided with another block
       if (

@@ -1,4 +1,5 @@
 import { Block, Coordinates, Direction, MoveableDirection } from "../types";
+import { board } from "../constants";
 
 export class Tetrimino {
   type: TetriminoType;
@@ -54,19 +55,21 @@ export class Tetrimino {
   public rotate() {
     // "O" tetriminos cannot be rotated
     if (this.type !== "O") {
-      this.blocks = this.getRotatedBlocks();
+      const { rotatedBlocks, rotatedCenter } = this.getRotatedState();
 
-      this.center = this.getRotatedCenter();
+      this.blocks = rotatedBlocks;
+
+      this.center = rotatedCenter;
 
       this.orientation = getNextClockwiseDirection(this.orientation);
     }
   }
 
-  public getRotatedBlocks() {
+  public getRotatedState() {
     // The "I" tetrimino is the only one that rotates counter clockwise
     const direction = this.type === "I" ? "counter-clockwise" : "clockwise";
 
-    const rotatedBlocks = this.blocks.map((block) => {
+    let rotatedBlocks = this.blocks.map((block) => {
       const delta = {
         x: block.x - this.center.x,
         y: block.y - this.center.y,
@@ -87,25 +90,57 @@ export class Tetrimino {
       }
     });
 
-    return rotatedBlocks;
-  }
+    let rotatedCenter = { ...this.center };
 
-  public getRotatedCenter() {
     // The "I" tetrimino is the only one with a different center after rotation
     if (this.type === "I") {
       switch (this.orientation) {
         case "up":
-          return { x: this.center.x, y: this.center.y + 1 };
+          rotatedCenter = { x: this.center.x, y: this.center.y + 1 };
+          break;
         case "right":
-          return { x: this.center.x - 1, y: this.center.y };
+          rotatedCenter = { x: this.center.x - 1, y: this.center.y };
+          break;
         case "down":
-          return { x: this.center.x, y: this.center.y - 1 };
+          rotatedCenter = { x: this.center.x, y: this.center.y - 1 };
+          break;
         case "left":
-          return { x: this.center.x + 1, y: this.center.y };
+          rotatedCenter = { x: this.center.x + 1, y: this.center.y };
+          break;
       }
     }
 
-    return this.center;
+    const xValues = rotatedBlocks.map((block) => block.x);
+
+    // Find the upper and lower bounds of the rotated tetrimino blocks
+    const minX = Math.min(...xValues);
+    const maxX = Math.max(...xValues);
+
+    // If the rotated tetrimino has moved outside the left side of board, move it inwards
+    if (minX < 0) {
+      const shift = minX * -1;
+
+      rotatedCenter = { ...rotatedCenter, x: rotatedCenter.x + shift };
+
+      rotatedBlocks = rotatedBlocks.map((block) => ({
+        ...block,
+        x: block.x + shift,
+      }));
+    }
+
+    // If the rotated tetrimino has moved outside the right side of board, move it inwards
+    if (maxX >= board.width) {
+      const shift = maxX - board.width + 1;
+
+      rotatedCenter = { ...rotatedCenter, x: rotatedCenter.x - shift };
+
+      rotatedBlocks = rotatedBlocks.map((block) => ({
+        ...block,
+        x: block.x - shift,
+      }));
+    }
+
+    return { rotatedBlocks, rotatedCenter };
   }
 
   public clone(): Tetrimino {
