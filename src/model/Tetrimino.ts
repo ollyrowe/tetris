@@ -177,7 +177,7 @@ const createTetriminoBlocks = (type: TetriminoType) => {
       };
     case "Z":
       return {
-        center: { x: 4, y: 0 },
+        center: { x: 4, y: 1 },
         blocks: [
           { type, x: 3, y: 0 },
           { type, x: 4, y: 0 },
