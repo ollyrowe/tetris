@@ -1,3 +1,10 @@
+## [1.10.4](https://github.com/ollyrowe/tetris/compare/v1.10.3...v1.10.4) (2023-10-17)
+
+
+### Bug Fixes
+
+* prevent mutating queue when checking game over ([0151221](https://github.com/ollyrowe/tetris/commit/015122178e211d7484334038e32feb0572dbe0fe))
+
 ## [1.10.3](https://github.com/ollyrowe/tetris/compare/v1.10.2...v1.10.3) (2023-10-17)
 
 
