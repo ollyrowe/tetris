@@ -1,3 +1,11 @@
+## [1.10.3](https://github.com/ollyrowe/tetris/compare/v1.10.2...v1.10.3) (2023-10-17)
+
+
+### Bug Fixes
+
+* revert hiding held tetrimino upon game over ([b23cf5d](https://github.com/ollyrowe/tetris/commit/b23cf5d38d7bd0c9dd3a0ee455e3efdc9b6a4db0))
+* revert hiding tetrimino queue upon game over ([2bd6228](https://github.com/ollyrowe/tetris/commit/2bd62283a6cc6c1e80552ccc9baaea9a504bc510))
+
 ## [1.10.2](https://github.com/ollyrowe/tetris/compare/v1.10.1...v1.10.2) (2023-10-15)
 
 
