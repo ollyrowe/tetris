@@ -62,20 +62,23 @@ export const useGame = () => {
       ) {
         blocks.current.push(...tetrimino.current.blocks);
 
-        // Set the next tetrimino type in the queue to be the current
-        tetrimino.current = queue.getNextTetrimino();
+        // Get the next tetrimino in the queue without removing it
+        const nextTetrimino = queue.peekNextTetrimino();
 
-        // Reset the has switched held tetrimino state
-        hasSwitchedHeldTetrimino.current = false;
-
-        // If the newly placed tetrimino has already collided with another block then the game is over
-        if (hasCollision(tetrimino.current.blocks, blocks.current)) {
+        // If the next tetrimino will have already collided with another block then the game is over
+        if (hasCollision(nextTetrimino.blocks, blocks.current)) {
           setStatus("over");
 
           recordScore(points);
 
           return pause();
         }
+
+        // Update the tetrimino to be the next one in the queue
+        tetrimino.current = queue.getNextTetrimino();
+
+        // Reset the has switched held tetrimino state
+        hasSwitchedHeldTetrimino.current = false;
 
         const completedRows = findCompletedRows(blocks.current);
 

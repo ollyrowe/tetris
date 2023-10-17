@@ -15,6 +15,11 @@ export const useTetriminoQueue = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const initialise = useCallback(() => setItems(createItems()), []);
 
+  const peekNextTetrimino = useCallback(() => {
+    return createTetrimino(itemsRef.current[0]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const getNextTetrimino = useCallback(() => {
     const nextTetrimino = createTetrimino(itemsRef.current[0]);
 
@@ -29,8 +34,8 @@ export const useTetriminoQueue = () => {
   const reset = useCallback(() => setItems([]), []);
 
   return useMemo(
-    () => ({ items, initialise, getNextTetrimino, reset }),
-    [items, initialise, getNextTetrimino, reset]
+    () => ({ items, initialise, peekNextTetrimino, getNextTetrimino, reset }),
+    [items, initialise, peekNextTetrimino, getNextTetrimino, reset]
   );
 };
 
