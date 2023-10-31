@@ -1,3 +1,11 @@
+## [1.10.5](https://github.com/ollyrowe/tetris/compare/v1.10.4...v1.10.5) (2023-10-31)
+
+
+### Bug Fixes
+
+* fix issue where game would resume when paused ([ad40e64](https://github.com/ollyrowe/tetris/commit/ad40e6495bb98382d67a7995c54af51d71cc630d))
+* fix issue where game would run once over ([44c6f85](https://github.com/ollyrowe/tetris/commit/44c6f85d50f94028e0f67d411ece61b33f703ee1))
+
 ## [1.10.4](https://github.com/ollyrowe/tetris/compare/v1.10.3...v1.10.4) (2023-10-17)
 
 
