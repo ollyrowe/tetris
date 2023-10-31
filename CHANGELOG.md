@@ -1,3 +1,10 @@
+## [1.10.6](https://github.com/ollyrowe/tetris/compare/v1.10.5...v1.10.6) (2023-10-31)
+
+
+### Bug Fixes
+
+* fix completed line count increase issue ([30c9f7d](https://github.com/ollyrowe/tetris/commit/30c9f7d5624fd873dd769a941bdce186cf302037))
+
 ## [1.10.5](https://github.com/ollyrowe/tetris/compare/v1.10.4...v1.10.5) (2023-10-31)
 
 
