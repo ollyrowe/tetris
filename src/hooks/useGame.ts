@@ -193,10 +193,12 @@ export const useGame = () => {
   }, []);
 
   const cancelSoftDrop = useCallback(() => {
-    clearSoftDropInterval();
+    if (status === "playing") {
+      clearSoftDropInterval();
 
-    gameLoop.play();
-  }, [clearSoftDropInterval, gameLoop]);
+      gameLoop.play();
+    }
+  }, [status, clearSoftDropInterval, gameLoop]);
 
   const moveTetrimino = useCallback(
     (direction: MoveableDirection) => {
