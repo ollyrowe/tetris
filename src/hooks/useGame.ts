@@ -56,77 +56,79 @@ export const useGame = () => {
 
   const callback = useCallback<IntervalCallback>(
     ({ pause }) => {
-      if (
-        hasBlockBelowTetrimino(blocks.current, tetrimino.current) ||
-        hasReachedBoardBottom(tetrimino.current)
-      ) {
-        blocks.current.push(...tetrimino.current.blocks);
+      if (status === "playing") {
+        if (
+          hasBlockBelowTetrimino(blocks.current, tetrimino.current) ||
+          hasReachedBoardBottom(tetrimino.current)
+        ) {
+          blocks.current.push(...tetrimino.current.blocks);
 
-        // Get the next tetrimino in the queue without removing it
-        const nextTetrimino = queue.peekNextTetrimino();
+          // Get the next tetrimino in the queue without removing it
+          const nextTetrimino = queue.peekNextTetrimino();
 
-        // If the next tetrimino will have already collided with another block then the game is over
-        if (hasCollision(nextTetrimino.blocks, blocks.current)) {
-          setStatus("over");
+          // If the next tetrimino will have already collided with another block then the game is over
+          if (hasCollision(nextTetrimino.blocks, blocks.current)) {
+            setStatus("over");
 
-          recordScore(points);
+            recordScore(points);
 
-          return pause();
-        }
-
-        // Update the tetrimino to be the next one in the queue
-        tetrimino.current = queue.getNextTetrimino();
-
-        // Reset the has switched held tetrimino state
-        hasSwitchedHeldTetrimino.current = false;
-
-        const completedRows = findCompletedRows(blocks.current);
-
-        for (const completedRow of completedRows.sort()) {
-          // Remove all blocks within the completed row
-          blocks.current = blocks.current.filter(
-            (block) => block.y !== completedRow
-          );
-
-          // Shift all blocks above the completed row downwards
-          blocks.current = blocks.current.map((block) =>
-            block.y < completedRow ? { ...block, y: block.y + 1 } : block
-          );
-
-          // Update the completed lines
-          setLines(lines + 1);
-
-          // Calculate the current level based on the current number of lines completed
-          const nextLevel = getLevel(lines);
-
-          // If the game was started at a level other than 1 then the current level might be higher than the completed lines would suggest
-          if (nextLevel > level) {
-            setLevel(nextLevel);
+            return pause();
           }
+
+          // Update the tetrimino to be the next one in the queue
+          tetrimino.current = queue.getNextTetrimino();
+
+          // Reset the has switched held tetrimino state
+          hasSwitchedHeldTetrimino.current = false;
+
+          const completedRows = findCompletedRows(blocks.current);
+
+          for (const completedRow of completedRows.sort()) {
+            // Remove all blocks within the completed row
+            blocks.current = blocks.current.filter(
+              (block) => block.y !== completedRow
+            );
+
+            // Shift all blocks above the completed row downwards
+            blocks.current = blocks.current.map((block) =>
+              block.y < completedRow ? { ...block, y: block.y + 1 } : block
+            );
+
+            // Update the completed lines
+            setLines(lines + 1);
+
+            // Calculate the current level based on the current number of lines completed
+            const nextLevel = getLevel(lines);
+
+            // If the game was started at a level other than 1 then the current level might be higher than the completed lines would suggest
+            if (nextLevel > level) {
+              setLevel(nextLevel);
+            }
+          }
+
+          // Add the appropriate number of points
+          switch (completedRows.length) {
+            case 1:
+              addPoints(pointValues.singleLineClear);
+              break;
+            case 2:
+              addPoints(pointValues.doubleLineClear);
+              break;
+            case 3:
+              addPoints(pointValues.tripleLineClear);
+              break;
+            case 4:
+              addPoints(pointValues.tetrisLineClear);
+              break;
+          }
+        } else {
+          tetrimino.current.move("down");
         }
 
-        // Add the appropriate number of points
-        switch (completedRows.length) {
-          case 1:
-            addPoints(pointValues.singleLineClear);
-            break;
-          case 2:
-            addPoints(pointValues.doubleLineClear);
-            break;
-          case 3:
-            addPoints(pointValues.tripleLineClear);
-            break;
-          case 4:
-            addPoints(pointValues.tetrisLineClear);
-            break;
-        }
-      } else {
-        tetrimino.current.move("down");
+        updateTiles();
       }
-
-      updateTiles();
     },
-    [queue, addPoints, level, lines, points, recordScore]
+    [status, queue, addPoints, level, lines, points, recordScore]
   );
 
   const gameLoop = useInterval(callback, levelSpeeds[level]);
