@@ -94,11 +94,13 @@ export const useGame = () => {
               block.y < completedRow ? { ...block, y: block.y + 1 } : block
             );
 
+            const updatedLines = lines + completedRows.length;
+
             // Update the completed lines
-            setLines(lines + 1);
+            setLines(updatedLines);
 
             // Calculate the current level based on the current number of lines completed
-            const nextLevel = getLevel(lines);
+            const nextLevel = getLevel(updatedLines);
 
             // If the game was started at a level other than 1 then the current level might be higher than the completed lines would suggest
             if (nextLevel > level) {
