@@ -1,3 +1,15 @@
+# [1.11.0](https://github.com/ollyrowe/tetris/compare/v1.10.6...v1.11.0) (2023-11-19)
+
+
+### Bug Fixes
+
+* fix hard drop point increment delay issue ([4dee081](https://github.com/ollyrowe/tetris/commit/4dee081149516f435ff56649c600925dc16e96ad))
+
+
+### Features
+
+* persist start level to local storage ([6a6fb21](https://github.com/ollyrowe/tetris/commit/6a6fb21d56383156ea537ae9e818f226f0060760))
+
 ## [1.10.6](https://github.com/ollyrowe/tetris/compare/v1.10.5...v1.10.6) (2023-10-31)
 
 
