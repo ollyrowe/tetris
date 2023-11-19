@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/ollyrowe/tetris/compare/v1.11.0...v1.11.1) (2023-11-19)
+
+
+### Bug Fixes
+
+* prevent global user selection ([3cee471](https://github.com/ollyrowe/tetris/commit/3cee471d27a86c49f16e55ab837ee7b3eaf9278e))
+
 # [1.11.0](https://github.com/ollyrowe/tetris/compare/v1.10.6...v1.11.0) (2023-11-19)
 
 
