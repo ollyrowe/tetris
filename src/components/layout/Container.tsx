@@ -73,7 +73,6 @@ const Contents = styled.div<ScaleDetails>`
   flex-direction: column;
   justify-content: center;
   scale: ${(props) => props.scale};
-  user-select: none;
 `;
 
 type ScaleDetails = {
