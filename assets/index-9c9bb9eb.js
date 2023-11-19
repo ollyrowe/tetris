@@ -71,7 +71,6 @@ Error generating stack: `+i.message+`
   flex-direction: column;
   justify-content: center;
   scale: ${e=>e.scale};
-  user-select: none;
 `,Wr=({title:e,children:t,...n})=>E.jsxs(L0,{pad:!!e,...n,children:[e&&E.jsx($0,{children:e}),E.jsx(R0,{pad:!!e,children:t})]}),L0=I.div`
   font-family: sans-serif;
   position: relative;
@@ -231,7 +230,7 @@ Error generating stack: `+i.message+`
   margin-top: 24px;
   min-width: 50px;
   text-align: center;
-`,w1=()=>{const{status:e,stats:t}=qe();return E.jsx(yd,{title:"Level",children:e==="idle"?"-":t.level})},x1=()=>{const{status:e,stats:t}=qe();return E.jsx(yd,{title:"Lines",children:e==="idle"?"-":t.lines})},k1="1.11.0",S1=()=>E.jsx(C1,{children:`v${k1}`}),C1=I.div`
+`,w1=()=>{const{status:e,stats:t}=qe();return E.jsx(yd,{title:"Level",children:e==="idle"?"-":t.level})},x1=()=>{const{status:e,stats:t}=qe();return E.jsx(yd,{title:"Lines",children:e==="idle"?"-":t.lines})},k1="1.11.1",S1=()=>E.jsx(C1,{children:`v${k1}`}),C1=I.div`
   font-family: monospace;
   position: absolute;
   bottom: 0;
