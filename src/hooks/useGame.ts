@@ -273,8 +273,8 @@ export const useGame = () => {
 
       updateTiles();
 
-      // Resume the game loop immediately
-      gameLoop.play({ immediate: true });
+      // Resume the game loop immediately (setTimeout to wait for the points state to update)
+      setTimeout(() => gameLoop.play({ immediate: true }), 0);
     }
   }, [status, clearSoftDropInterval, addPoints, gameLoop]);
 
