@@ -24,6 +24,8 @@ export const GameContext = createContext<ReturnType<typeof useGame>>({
   tiles: [],
   highScores: [],
   status: "idle",
+  startLevel: 1,
+  setStartLevel: () => undefined,
 });
 
 export const useGameContext = () => useContext(GameContext);

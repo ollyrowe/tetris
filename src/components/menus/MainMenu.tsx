@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { styled } from "styled-components";
 import Menu from "./Menu";
 import HighScores from "./HighScores";
@@ -8,25 +8,24 @@ import { useGameContext } from "../../providers";
 import { Level } from "../../hooks/useGame";
 
 const MainMenu: React.FC = () => {
-  const { controls } = useGameContext();
-
-  const [selectedLevel, setSelectedLevel] = useState<Level>(1);
-
-  const start = () => {
-    controls.start(selectedLevel);
-  };
+  const { controls, startLevel, setStartLevel } = useGameContext();
 
   const toggleLevel = () => {
-    setSelectedLevel(getNextLevel(selectedLevel));
+    setStartLevel(getNextLevel(startLevel));
   };
 
   return (
     <Menu>
       <ButtonContainer>
         <Logo />
-        <Button label="Play" colour="green" size="large" onClick={start} />
         <Button
-          label={`Level ${selectedLevel}`}
+          label="Play"
+          colour="green"
+          size="large"
+          onClick={controls.start}
+        />
+        <Button
+          label={`Level ${startLevel}`}
           colour="grey"
           onClick={toggleLevel}
         />

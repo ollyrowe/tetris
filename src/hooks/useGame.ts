@@ -2,6 +2,7 @@ import { useState, useRef, useCallback } from "react";
 import { useInterval, IntervalCallback } from "./useInterval";
 import { useTetriminoQueue } from "./useTetriminoQueue";
 import { useHighScores } from "./useHighScores";
+import { useLocalStorage } from "./useLocalStorage";
 import { Tetrimino, createTetrimino, TetriminoType } from "../model";
 import { Block, Guide, MoveableDirection, Tile } from "../types";
 import { board } from "../constants";
@@ -12,6 +13,9 @@ export const useGame = () => {
 
   // The number of complete rows the player has made
   const [lines, setLines] = useState(0);
+
+  // The level the game will start at
+  const [startLevel, setStartLevel] = useLocalStorage<Level>("start-level", 1);
 
   // The current speed level that the game is set to
   const [level, setLevel] = useState<Level>(1);
@@ -102,8 +106,8 @@ export const useGame = () => {
             // Calculate the current level based on the current number of lines completed
             const nextLevel = getLevel(updatedLines);
 
-            // If the game was started at a level other than 1 then the current level might be higher than the completed lines would suggest
-            if (nextLevel > level) {
+            // Prevent the level from going down
+            if (nextLevel > startLevel) {
               setLevel(nextLevel);
             }
           }
@@ -130,7 +134,7 @@ export const useGame = () => {
         updateTiles();
       }
     },
-    [status, queue, addPoints, level, lines, points, recordScore]
+    [status, queue, addPoints, startLevel, lines, points, recordScore]
   );
 
   const gameLoop = useInterval(callback, levelSpeeds[level]);
@@ -171,10 +175,10 @@ export const useGame = () => {
     setTiles(createTiles());
   };
 
-  const start = (level: Level = 1) => {
+  const start = () => {
     reset();
 
-    setLevel(level);
+    setLevel(startLevel);
 
     queue.initialise();
 
@@ -335,6 +339,8 @@ export const useGame = () => {
     heldTetrimino,
     controls,
     highScores,
+    startLevel,
+    setStartLevel,
   };
 };
 
