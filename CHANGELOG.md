@@ -1,3 +1,10 @@
+## [1.11.2](https://github.com/ollyrowe/tetris/compare/v1.11.1...v1.11.2) (2024-08-08)
+
+
+### Bug Fixes
+
+* fix completed row deletion order issue ([1831bbc](https://github.com/ollyrowe/tetris/commit/1831bbce9daa6bbd7639efbe07a4b0088b5c6fe9))
+
 ## [1.11.1](https://github.com/ollyrowe/tetris/compare/v1.11.0...v1.11.1) (2023-11-19)
 
 
