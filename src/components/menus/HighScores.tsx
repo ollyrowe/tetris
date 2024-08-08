@@ -17,7 +17,7 @@ const HighScores: React.FC = () => {
           const isNewHighScore = score === stats.points;
 
           return (
-            <Item key={index} index={index} bold={isNewHighScore}>
+            <Item key={index} $index={index} $bold={isNewHighScore}>
               {getScoreText(score)}
             </Item>
           );
@@ -60,8 +60,8 @@ const List = styled.ol`
 `;
 
 interface ItemProps {
-  index: number;
-  bold: boolean;
+  $index: number;
+  $bold: boolean;
 }
 
 const Item = styled.li<ItemProps>`
@@ -69,10 +69,10 @@ const Item = styled.li<ItemProps>`
   justify-content: flex-end;
   width: 100%;
   box-sizing: border-box;
-  background-color: ${({ index }) =>
-    index % 2 === 0 ? "#3a3a3a64" : "#3a3a3a"};
+  background-color: ${(props) =>
+    props.$index % 2 === 0 ? "#3a3a3a64" : "#3a3a3a"};
   padding: 4px;
-  font-weight: ${(props) => (props.bold ? "bold" : "normal")};
+  font-weight: ${(props) => (props.$bold ? "bold" : "normal")};
 `;
 
 const getScoreText = (score?: number) => {

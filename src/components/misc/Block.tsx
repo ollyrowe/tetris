@@ -13,15 +13,15 @@ const Block: React.FC<Props> = ({
   size = "medium",
   transparent = false,
 }) => {
-  return <Box type={type} size={size} transparent={transparent} />;
+  return <Box $type={type} $size={size} $transparent={transparent} />;
 };
 
 export default Block;
 
 interface BoxProps {
-  type: TetriminoType;
-  size: BlockSize;
-  transparent: boolean;
+  $type: TetriminoType;
+  $size: BlockSize;
+  $transparent: boolean;
 }
 
 const Box = styled.div<BoxProps>`
@@ -29,12 +29,12 @@ const Box = styled.div<BoxProps>`
   height: calc(${(props) => getSize(props)});
   border-style: solid;
   margin: auto;
-  border-color: ${(props) => boxBorderColours[props.type]};
+  border-color: ${(props) => boxBorderColours[props.$type]};
   border-radius: 2px;
-  border-width: ${(props) => props.transparent && "2px"};
-  background: ${(props) => !props.transparent && boxColours[props.type]};
+  border-width: ${(props) => props.$transparent && "2px"};
+  background: ${(props) => !props.$transparent && boxColours[props.$type]};
   box-shadow: ${(props) =>
-    !props.transparent &&
+    !props.$transparent &&
     `inset 0.1em 0.1em 0.1em 0 rgba(255, 255, 255, 0.5),
     inset -0.1em -0.1em 0.1em 0 rgba(0, 0, 0, 0.5)`};
 `;
@@ -60,7 +60,7 @@ const boxBorderColours: { [T in TetriminoType]: string } = {
 };
 
 const getSize = (props: BoxProps) => {
-  return `${sizes[props.size]}px - ${props.transparent ? 4 : 3}px`;
+  return `${sizes[props.$size]}px - ${props.$transparent ? 4 : 3}px`;
 };
 
 // eslint-disable-next-line react-refresh/only-export-components

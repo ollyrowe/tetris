@@ -18,7 +18,7 @@ const Preview: React.FC<Props> = ({ type }) => {
   const tiles = tetrimino ? createTiles(tetrimino) : [];
 
   return (
-    <Container pad={screenType === "desktop"}>
+    <Container $pad={screenType === "desktop"}>
       {tiles.map((row, i) => (
         <Row key={i}>
           {row.map((tile, j) => (
@@ -86,7 +86,7 @@ const getTetriminoBounds = (tetrimino: Tetrimino) => {
 };
 
 interface ContainerProps {
-  pad: boolean;
+  $pad: boolean;
 }
 
 const Container = styled.div<ContainerProps>`
@@ -96,7 +96,7 @@ const Container = styled.div<ContainerProps>`
   justify-content: center;
   min-height: 30px;
   min-width: 48px;
-  padding: ${(props) => `8px ${props.pad ? "8px" : "0px"}`};
+  padding: ${(props) => `8px ${props.$pad ? "8px" : "0px"}`};
 `;
 
 const Row = styled.div`

@@ -15,7 +15,7 @@ const Button: React.FC<Props> = ({
   onClick,
 }) => {
   return (
-    <StyledButton colour={colour} size={size} onClick={onClick}>
+    <StyledButton $colour={colour} $size={size} onClick={onClick}>
       {label}
     </StyledButton>
   );
@@ -24,8 +24,8 @@ const Button: React.FC<Props> = ({
 export default Button;
 
 interface StyledButtonProps {
-  colour: Colour;
-  size: Size;
+  $colour: Colour;
+  $size: Size;
 }
 
 const StyledButton = styled.button<StyledButtonProps>`
@@ -38,16 +38,16 @@ const StyledButton = styled.button<StyledButtonProps>`
   padding: 12px;
   margin: 6px;
   font-weight: bold;
-  font-size: ${(props) => (props.size === "medium" ? "0.9rem" : "1.4rem")};
+  font-size: ${(props) => (props.$size === "medium" ? "0.9rem" : "1.4rem")};
   color: white;
-  background-color: ${(props) => backgroundColours[props.colour]};
-  width: ${(props) => (props.size === "medium" ? "120px" : "150px")};
-  height: ${(props) => (props.size === "medium" ? "25px" : "35px")};
+  background-color: ${(props) => backgroundColours[props.$colour]};
+  width: ${(props) => (props.$size === "medium" ? "120px" : "150px")};
+  height: ${(props) => (props.$size === "medium" ? "25px" : "35px")};
   transition: all 0.2s ease-in-out;
   cursor: pointer;
 
   &:hover {
-    background-color: ${(props) => hoverColours[props.colour]};
+    background-color: ${(props) => hoverColours[props.$colour]};
   }
 `;
 

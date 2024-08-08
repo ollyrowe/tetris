@@ -65,9 +65,9 @@ const TopRow: React.FC<TopRowProps> = ({ children }) => {
 
   return (
     <Box
-      align="center"
-      gridArea="top-row"
-      anchor={screenType !== "desktop" ? "bottom" : undefined}
+      $align="center"
+      $gridArea="top-row"
+      $anchor={screenType !== "desktop" ? "bottom" : undefined}
     >
       {children}
     </Box>
@@ -93,9 +93,9 @@ const LeftColumn: React.FC<ColumnProps> = ({ children }) => {
 
   return (
     <Column
-      align="end"
-      gridArea="left-column"
-      anchor={screenType !== "desktop" ? "right" : undefined}
+      $align="end"
+      $gridArea="left-column"
+      $anchor={screenType !== "desktop" ? "right" : undefined}
     >
       {children}
     </Column>
@@ -107,8 +107,8 @@ const RightColumn: React.FC<ColumnProps> = ({ children }) => {
 
   return (
     <Column
-      gridArea="right-column"
-      anchor={screenType !== "desktop" ? "left" : undefined}
+      $gridArea="right-column"
+      $anchor={screenType !== "desktop" ? "left" : undefined}
     >
       {children}
     </Column>
@@ -116,20 +116,20 @@ const RightColumn: React.FC<ColumnProps> = ({ children }) => {
 };
 
 interface BoxProps {
-  align?: string;
-  gridArea?: string;
-  anchor?: "bottom" | "left" | "right";
+  $align?: string;
+  $gridArea?: string;
+  $anchor?: "bottom" | "left" | "right";
 }
 
 const Box = styled.div<BoxProps>`
   display: flex;
   flex-direction: column;
-  align-items: ${(props) => props.align};
-  grid-area: ${(props) => props.gridArea};
-  margin: ${(props) => (props.anchor ? "auto" : "16px")};
-  margin-left: ${(props) => props.anchor === "left" && "-8px"};
-  margin-right: ${(props) => props.anchor === "right" && "-8px"};
-  margin-bottom: ${(props) => props.anchor === "bottom" && "-8px"};
+  align-items: ${(props) => props.$align};
+  grid-area: ${(props) => props.$gridArea};
+  margin: ${(props) => (props.$anchor ? "auto" : "16px")};
+  margin-left: ${(props) => props.$anchor === "left" && "-8px"};
+  margin-right: ${(props) => props.$anchor === "right" && "-8px"};
+  margin-bottom: ${(props) => props.$anchor === "bottom" && "-8px"};
 `;
 
 const Column = styled(Box)`

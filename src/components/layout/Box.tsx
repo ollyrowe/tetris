@@ -7,9 +7,9 @@ interface Props {
 
 const Box: React.FC<Props> = ({ title, children, ...otherProps }) => {
   return (
-    <Container pad={!!title} {...otherProps}>
+    <Container $pad={!!title} {...otherProps}>
       {title && <Title>{title}</Title>}
-      <Contents pad={!!title}>{children}</Contents>
+      <Contents $pad={!!title}>{children}</Contents>
     </Container>
   );
 };
@@ -17,7 +17,7 @@ const Box: React.FC<Props> = ({ title, children, ...otherProps }) => {
 export default Box;
 
 interface ContainerProps {
-  pad: boolean;
+  $pad: boolean;
 }
 
 const Container = styled.div<ContainerProps>`
@@ -29,16 +29,16 @@ const Container = styled.div<ContainerProps>`
   color: white;
   background-color: #3a3a3a;
   box-shadow: 1px 1px 12px 0px black;
-  padding: ${(props) => props.pad && "8px"};
+  padding: ${(props) => props.$pad && "8px"};
 `;
 
 interface ContentsProps {
-  pad: boolean;
+  $pad: boolean;
 }
 
 const Contents = styled.div<ContentsProps>`
   font-family: monospace;
-  padding: ${(props) => props.pad && "8px"};
+  padding: ${(props) => props.$pad && "8px"};
   border-radius: 8px;
   background-color: black;
 `;
