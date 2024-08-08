@@ -46,6 +46,14 @@ const getScale = (outer: Dimensions, inner: Dimensions): ScaleDetails => {
   const verticalScale = outer.height / inner.height;
   const horizontalScale = outer.width / inner.width;
 
+  // If either scale is not a number (i.e. width or height are zero)
+  if (isNaN(verticalScale) || isNaN(horizontalScale)) {
+    return {
+      origin: "left",
+      scale: 1,
+    };
+  }
+
   if (verticalScale < horizontalScale) {
     return {
       origin: "top",
