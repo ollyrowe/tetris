@@ -87,7 +87,10 @@ export const useGame = () => {
 
           const completedRows = findCompletedRows(blocks.current);
 
-          for (const completedRow of completedRows.sort()) {
+          // Sort the completed rows numerically so that the blocks within the highest rows are removed first
+          completedRows.sort((a, b) => a - b);
+
+          for (const completedRow of completedRows) {
             // Remove all blocks within the completed row
             blocks.current = blocks.current.filter(
               (block) => block.y !== completedRow
