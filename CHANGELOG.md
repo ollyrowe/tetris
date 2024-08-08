@@ -1,3 +1,11 @@
+## [1.11.3](https://github.com/ollyrowe/tetris/compare/v1.11.2...v1.11.3) (2024-08-08)
+
+
+### Bug Fixes
+
+* fix invalid scale prop ([ad582d6](https://github.com/ollyrowe/tetris/commit/ad582d60f5a70fe569f473d88477cb04d1365c4a))
+* prevent passing props to dom elements ([e1004c7](https://github.com/ollyrowe/tetris/commit/e1004c773ca3ba6aebf40f236504dc0cb7106a12))
+
 ## [1.11.2](https://github.com/ollyrowe/tetris/compare/v1.11.1...v1.11.2) (2024-08-08)
 
 
