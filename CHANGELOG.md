@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/ollyrowe/tetris/compare/v1.11.3...v1.12.0) (2024-09-07)
+
+
+### Features
+
+* add trails to hard dropped tetriminos ([8a6e1ec](https://github.com/ollyrowe/tetris/commit/8a6e1ec5febaa3c18007bd49121e11e4442e0317))
+
 ## [1.11.3](https://github.com/ollyrowe/tetris/compare/v1.11.2...v1.11.3) (2024-08-08)
 
 
