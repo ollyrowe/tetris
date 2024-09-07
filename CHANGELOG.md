@@ -1,3 +1,10 @@
+## [1.12.1](https://github.com/ollyrowe/tetris/compare/v1.12.0...v1.12.1) (2024-09-07)
+
+
+### Bug Fixes
+
+* increase trail opacity ([e2ef934](https://github.com/ollyrowe/tetris/commit/e2ef934914d7ea0de9a4fa55a5c9aa19c9921ec2))
+
 # [1.12.0](https://github.com/ollyrowe/tetris/compare/v1.11.3...v1.12.0) (2024-09-07)
 
 
