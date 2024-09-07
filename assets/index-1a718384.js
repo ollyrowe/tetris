@@ -108,7 +108,7 @@ Error generating stack: `+i.message+`
   bottom: 0;
   width: 100%;
   height: ${e=>`calc(${e.$length} * 100%)`};
-  background-image: linear-gradient(transparent, rgba(255, 255, 255, 0.2));
+  background-image: linear-gradient(transparent, rgba(255, 255, 255, 0.25));
   border-radius: 2px;
   transition: opacity ${ns}ms linear;
   opacity: ${e=>e.$opacity};
@@ -240,7 +240,7 @@ Error generating stack: `+i.message+`
   margin-top: 24px;
   min-width: 50px;
   text-align: center;
-`,T1=()=>{const{status:e,stats:t}=qe();return C.jsx(wd,{title:"Level",children:e==="idle"?"-":t.level})},P1=()=>{const{status:e,stats:t}=qe();return C.jsx(wd,{title:"Lines",children:e==="idle"?"-":t.lines})},$1="1.12.0",z1=()=>C.jsx(N1,{children:`v${$1}`}),N1=I.div`
+`,T1=()=>{const{status:e,stats:t}=qe();return C.jsx(wd,{title:"Level",children:e==="idle"?"-":t.level})},P1=()=>{const{status:e,stats:t}=qe();return C.jsx(wd,{title:"Lines",children:e==="idle"?"-":t.lines})},$1="1.12.1",z1=()=>C.jsx(N1,{children:`v${$1}`}),N1=I.div`
   font-family: monospace;
   position: absolute;
   bottom: 0;
