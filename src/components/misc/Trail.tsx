@@ -53,7 +53,7 @@ const Shadow = styled.div<ShadowProps>`
   bottom: 0;
   width: 100%;
   height: ${(props) => `calc(${props.$length} * 100%)`};
-  background-image: linear-gradient(transparent, rgba(255, 255, 255, 0.2));
+  background-image: linear-gradient(transparent, rgba(255, 255, 255, 0.25));
   border-radius: 2px;
   transition: opacity ${trailAnimationLength}ms linear;
   opacity: ${(props) => props.$opacity};
