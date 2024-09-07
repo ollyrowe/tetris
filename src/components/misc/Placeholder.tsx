@@ -1,3 +1,4 @@
+import React from "react";
 import { styled } from "styled-components";
 import { BlockSize, sizes } from "./Block";
 
@@ -25,6 +26,7 @@ interface BoxProps {
 }
 
 const Box = styled.div<BoxProps>`
+  position: relative;
   width: ${(props) => `${sizes[props.$size]}px`};
   height: ${(props) => `${sizes[props.$size]}px`};
   border-color: #3c3c3c;

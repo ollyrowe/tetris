@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { styled } from "styled-components";
 import Box from "../layout/Box";
 import Block from "../misc/Block";
+import Trail from "../misc/Trail";
 import Placeholder from "../misc/Placeholder";
 import MainMenu from "../menus/MainMenu";
 import OverMenu from "../menus/OverMenu";
@@ -55,7 +56,10 @@ const Board: React.FC = () => {
       {tiles.map((row, i) => (
         <Row key={i}>
           {row.map((tile, j) => (
-            <Placeholder key={j}>{getTileChild(tile)}</Placeholder>
+            <Placeholder key={j}>
+              {getTileChild(tile)}
+              {getTileTrail(tile)}
+            </Placeholder>
           ))}
         </Row>
       ))}
@@ -72,6 +76,14 @@ const getTileChild = (tile: Tile) => {
       return <Block {...tile.block} />;
     case "guide":
       return <Block {...tile.guide} transparent />;
+  }
+};
+
+const getTileTrail = (tile: Tile) => {
+  const { trail } = tile;
+
+  if (trail) {
+    return <Trail length={trail.length} createdAt={trail.createdAt} />;
   }
 };
 

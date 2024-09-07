@@ -4,8 +4,8 @@ import { useTetriminoQueue } from "./useTetriminoQueue";
 import { useHighScores } from "./useHighScores";
 import { useLocalStorage } from "./useLocalStorage";
 import { Tetrimino, createTetrimino, TetriminoType } from "../model";
-import { Block, Guide, MoveableDirection, Tile } from "../types";
-import { board } from "../constants";
+import { Block, Guide, MoveableDirection, Tile, Trail } from "../types";
+import { board, trailAnimationLength } from "../constants";
 
 export const useGame = () => {
   // The number of points the player has
@@ -25,6 +25,9 @@ export const useGame = () => {
 
   // The placed blocks
   const blocks = useRef<Block[]>([]);
+
+  // The trails of the tetriminos that have been hard dropped
+  const trails = useRef<Trail[]>([]);
 
   // The queue of upcoming tetriminos to be placed
   const queue = useTetriminoQueue();
@@ -48,7 +51,7 @@ export const useGame = () => {
   const softDropInterval = useRef<number>();
 
   const updateTiles = () => {
-    setTiles(createTiles(blocks.current, tetrimino.current));
+    setTiles(createTiles(blocks.current, tetrimino.current, trails.current));
   };
 
   const addPoints = useCallback(
@@ -99,6 +102,11 @@ export const useGame = () => {
             // Shift all blocks above the completed row downwards
             blocks.current = blocks.current.map((block) =>
               block.y < completedRow ? { ...block, y: block.y + 1 } : block
+            );
+
+            // Shift all trails above the completed row downwards
+            trails.current = trails.current.map((trail) =>
+              trail.y < completedRow ? { ...trail, y: trail.y + 1 } : trail
             );
 
             const updatedLines = lines + completedRows.length;
@@ -259,11 +267,36 @@ export const useGame = () => {
       // Stop the soft drop loop if it is running
       clearSoftDropInterval();
 
+      // Record the vertical position of the tetrimino before it's dropped
+      const initialVerticalPosition = tetrimino.current.center.y;
+
       // Drop the tetrimino to the bottom of the board
       const droppedTetrimino = getDroppedTetrimino(
         tetrimino.current,
         blocks.current
       );
+
+      // Create a set of trails for the dropped tetrimino
+      const droppedTetriminoTrails = createTrails(
+        droppedTetrimino,
+        initialVerticalPosition
+      );
+
+      // Add the trails to the existing trails
+      trails.current.push(...droppedTetriminoTrails);
+
+      // Clear up the trails once the animation has finished
+      setTimeout(() => {
+        trails.current = trails.current.filter(
+          (trail) =>
+            !droppedTetriminoTrails.find(
+              (droppedTetriminoTrail) => droppedTetriminoTrail.id === trail.id
+            )
+        );
+
+        updateTiles();
+        // Give some leeway after the animation has finished before resuming the game loop
+      }, trailAnimationLength * 2);
 
       // Calculate the distance the tetrimino has dropped
       const droppedDistance =
@@ -347,7 +380,11 @@ export const useGame = () => {
   };
 };
 
-const createTiles = (blocks: Block[] = [], tetrimino?: Tetrimino) => {
+const createTiles = (
+  blocks: Block[] = [],
+  tetrimino?: Tetrimino,
+  trails: Trail[] = []
+) => {
   const rows: Tile[][] = [];
 
   // The guides to show where the tetrimino will fall
@@ -368,22 +405,24 @@ const createTiles = (blocks: Block[] = [], tetrimino?: Tetrimino) => {
     for (let x = 0; x < board.width; x++) {
       const block = blocks.find((block) => block.x === x && block.y === y);
 
+      const trail = trails.find((trail) => trail.x === x && trail.y === y);
+
       if (block) {
-        row.push({ type: "block", block });
+        row.push({ type: "block", block, trail });
       } else {
         const tetriminoBlock = tetrimino?.blocks.find(
           (block) => block.x === x && block.y === y
         );
 
         if (tetriminoBlock) {
-          row.push({ type: "block", block: tetriminoBlock });
+          row.push({ type: "block", block: tetriminoBlock, trail });
         } else {
           const guide = guides.find((guide) => guide.x === x && guide.y === y);
 
           if (guide) {
-            row.push({ type: "guide", guide });
+            row.push({ type: "guide", guide, trail });
           } else {
-            row.push({ type: "empty" });
+            row.push({ type: "empty", trail });
           }
         }
       }
@@ -469,6 +508,39 @@ const findCompletedRows = (blocks: Block[]) => {
 
   return completedRows;
 };
+
+const createTrails = (
+  tetrimino: Tetrimino,
+  verticalOrigin: number
+): Trail[] => {
+  // Get all of the top-most blocks which make up the tetrimino
+  const topBlocks = tetrimino.blocks.filter((block) => {
+    // Check if there is another block which is above the current block
+    return !tetrimino.blocks.some((otherBlock) => {
+      return (
+        otherBlock !== block &&
+        otherBlock.x === block.x &&
+        otherBlock.y < block.y
+      );
+    });
+  });
+
+  // Create a trail for each of the top blocks
+  const trails = topBlocks.map((block) => {
+    return {
+      id: trailCounter++,
+      x: block.x,
+      y: block.y - 1,
+      length: block.y - verticalOrigin + 1,
+      createdAt: new Date(),
+    };
+  });
+
+  return trails;
+};
+
+// Trail counter to give each trail a unique ID
+let trailCounter = 0;
 
 const getLevel = (lines: number): Level => {
   if (lines < 10) {

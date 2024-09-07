@@ -1,17 +1,22 @@
 import { Block } from "./Block";
 import { Guide } from "./Guide";
+import { Trail } from "./Trail";
 
-interface BlockTile {
+interface BaseTile {
+  trail?: Trail;
+}
+
+interface BlockTile extends BaseTile {
   type: "block";
   block: Block;
 }
 
-interface GuideTile {
+interface GuideTile extends BaseTile {
   type: "guide";
   guide: Guide;
 }
 
-interface EmptyTile {
+interface EmptyTile extends BaseTile {
   type: "empty";
 }
 
