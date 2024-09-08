@@ -1,3 +1,10 @@
+## [1.12.2](https://github.com/ollyrowe/tetris/compare/v1.12.1...v1.12.2) (2024-09-08)
+
+
+### Bug Fixes
+
+* fix trail rendering issues ([3a34a26](https://github.com/ollyrowe/tetris/commit/3a34a266c74b565bc54e41df98913b6aa1a492fe))
+
 ## [1.12.1](https://github.com/ollyrowe/tetris/compare/v1.12.0...v1.12.1) (2024-09-07)
 
 
