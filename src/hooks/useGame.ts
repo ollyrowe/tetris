@@ -180,6 +180,7 @@ export const useGame = () => {
     queue.reset();
 
     blocks.current = [];
+    trails.current = [];
     tetrimino.current = createTetrimino();
     hasSwitchedHeldTetrimino.current = false;
 
@@ -282,6 +283,15 @@ export const useGame = () => {
         initialVerticalPosition
       );
 
+      // Remove any trails at the same location
+      trails.current = trails.current.filter((trail) =>
+        droppedTetriminoTrails.find(
+          (droppedTetriminoTrail) =>
+            droppedTetriminoTrail.x === trail.x &&
+            droppedTetriminoTrail.y === trail.y
+        )
+      );
+
       // Add the trails to the existing trails
       trails.current.push(...droppedTetriminoTrails);
 
@@ -293,8 +303,6 @@ export const useGame = () => {
               (droppedTetriminoTrail) => droppedTetriminoTrail.id === trail.id
             )
         );
-
-        updateTiles();
         // Give some leeway after the animation has finished before resuming the game loop
       }, trailAnimationLength * 2);
 
@@ -532,7 +540,6 @@ const createTrails = (
       x: block.x,
       y: block.y - 1,
       length: block.y - verticalOrigin + 1,
-      createdAt: new Date(),
     };
   });
 

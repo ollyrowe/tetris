@@ -83,7 +83,7 @@ const getTileTrail = (tile: Tile) => {
   const { trail } = tile;
 
   if (trail) {
-    return <Trail length={trail.length} createdAt={trail.createdAt} />;
+    return <Trail key={trail.id} length={trail.length} />;
   }
 };
 
