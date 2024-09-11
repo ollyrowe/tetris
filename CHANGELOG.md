@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/ollyrowe/tetris/compare/v1.12.2...v1.13.0) (2024-09-11)
+
+
+### Features
+
+* add line clear animation ([cb450d7](https://github.com/ollyrowe/tetris/commit/cb450d76bbda1b4a5844a4ea3f6ff2c8d2fb8574))
+
 ## [1.12.2](https://github.com/ollyrowe/tetris/compare/v1.12.1...v1.12.2) (2024-09-08)
 
 
