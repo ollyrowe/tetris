@@ -1,11 +1,16 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useInterval, IntervalCallback } from "./useInterval";
 import { useTetriminoQueue } from "./useTetriminoQueue";
 import { useHighScores } from "./useHighScores";
 import { useLocalStorage } from "./useLocalStorage";
 import { Tetrimino, createTetrimino, TetriminoType } from "../model";
 import { Block, Guide, MoveableDirection, Tile, Trail } from "../types";
-import { board, trailAnimationLength } from "../constants";
+import {
+  board,
+  lineClearAnimationLength,
+  lineClearResumeDelay,
+  trailAnimationLength,
+} from "../constants";
 
 export const useGame = () => {
   // The number of points the player has
@@ -82,45 +87,22 @@ export const useGame = () => {
             return pause();
           }
 
-          // Update the tetrimino to be the next one in the queue
-          tetrimino.current = queue.getNextTetrimino();
-
-          // Reset the has switched held tetrimino state
-          hasSwitchedHeldTetrimino.current = false;
-
           const completedRows = findCompletedRows(blocks.current);
 
-          // Sort the completed rows numerically so that the blocks within the highest rows are removed first
-          completedRows.sort((a, b) => a - b);
+          // If there aren't any completed rows, then we can get the next tetrimino
+          if (completedRows.length === 0) {
+            // Update the tetrimino to be the next one in the queue
+            tetrimino.current = queue.getNextTetrimino();
+
+            // Reset the has switched held tetrimino state
+            hasSwitchedHeldTetrimino.current = false;
+          }
 
           for (const completedRow of completedRows) {
-            // Remove all blocks within the completed row
-            blocks.current = blocks.current.filter(
-              (block) => block.y !== completedRow
-            );
-
-            // Shift all blocks above the completed row downwards
+            // Mark all blocks in the completed row as cleared
             blocks.current = blocks.current.map((block) =>
-              block.y < completedRow ? { ...block, y: block.y + 1 } : block
+              block.y === completedRow ? { ...block, cleared: true } : block
             );
-
-            // Shift all trails above the completed row downwards
-            trails.current = trails.current.map((trail) =>
-              trail.y < completedRow ? { ...trail, y: trail.y + 1 } : trail
-            );
-
-            const updatedLines = lines + completedRows.length;
-
-            // Update the completed lines
-            setLines(updatedLines);
-
-            // Calculate the current level based on the current number of lines completed
-            const nextLevel = getLevel(updatedLines);
-
-            // Prevent the level from going down
-            if (nextLevel > startLevel) {
-              setLevel(nextLevel);
-            }
           }
 
           // Add the appropriate number of points
@@ -145,10 +127,84 @@ export const useGame = () => {
         updateTiles();
       }
     },
-    [status, queue, addPoints, startLevel, lines, points, recordScore]
+    [status, queue, addPoints, points, recordScore]
   );
 
   const gameLoop = useInterval(callback, levelSpeeds[level]);
+
+  /**
+   * Effect which removes any completed rows and shifts the blocks above downwards.
+   *
+   * The game is paused during this effect to allow time for the cleared blocks to animate.
+   */
+  useEffect(() => {
+    // Identify the unique rows which have been completed
+    const completedRows: number[] = [];
+
+    for (const row of tiles) {
+      for (const tile of row) {
+        if (tile.type === "block" && tile.block.cleared) {
+          completedRows.push(tile.block.y);
+          break;
+        }
+      }
+    }
+
+    if (completedRows.length === 0) {
+      return;
+    }
+
+    // Sort the completed rows numerically so that the blocks within the highest rows are removed first
+    completedRows.sort((a, b) => a - b);
+
+    // Pause the game to animate the line clear
+    gameLoop.pause();
+
+    for (const completedRow of completedRows) {
+      // Remove all blocks within the completed row
+      blocks.current = blocks.current.filter(
+        (block) => block.y !== completedRow
+      );
+
+      // Shift all blocks above the completed row downwards
+      blocks.current = blocks.current.map((block) =>
+        block.y < completedRow ? { ...block, y: block.y + 1 } : block
+      );
+
+      // Shift all trails above the completed row downwards
+      trails.current = trails.current.map((trail) =>
+        trail.y < completedRow ? { ...trail, y: trail.y + 1 } : trail
+      );
+    }
+
+    // Update the number of completed lines
+    setLines((lines) => lines + completedRows.length);
+
+    // After the animation has been completed, resume the game loop
+    setTimeout(() => {
+      // Update the tetrimino to be the next one in the queue
+      tetrimino.current = queue.getNextTetrimino();
+
+      // Reset the has switched held tetrimino state
+      hasSwitchedHeldTetrimino.current = false;
+
+      gameLoop.play({ immediate: true });
+    }, lineClearAnimationLength + lineClearResumeDelay);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tiles, queue]);
+
+  /**
+   * Effect which updates the game level based on the number of lines completed.
+   */
+  useEffect(() => {
+    // Calculate the current level based on the current number of lines completed
+    const nextLevel = getLevel(lines);
+
+    // Prevent the level from going down (i.e. if the game was started at a higher level)
+    if (nextLevel > startLevel) {
+      setLevel(nextLevel);
+    }
+  }, [lines, startLevel]);
 
   const pause = () => {
     if (status === "playing") {

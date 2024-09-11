@@ -1,27 +1,42 @@
 import React from "react";
 import { styled } from "styled-components";
 import { TetriminoType } from "../../model";
+import { Coordinates } from "../../types";
+import { board, lineClearAnimationLength } from "../../constants";
 
-interface Props {
+interface Props extends Coordinates {
   type: TetriminoType;
   size?: BlockSize;
   transparent?: boolean;
+  cleared?: boolean;
 }
 
 const Block: React.FC<Props> = ({
   type,
   size = "medium",
   transparent = false,
+  cleared = false,
+  ...coordinates
 }) => {
-  return <Box $type={type} $size={size} $transparent={transparent} />;
+  return (
+    <Box
+      $index={coordinates.x}
+      $type={type}
+      $size={size}
+      $transparent={transparent}
+      $cleared={cleared}
+    />
+  );
 };
 
 export default Block;
 
 interface BoxProps {
+  $index: number;
   $type: TetriminoType;
   $size: BlockSize;
   $transparent: boolean;
+  $cleared: boolean;
 }
 
 const Box = styled.div<BoxProps>`
@@ -32,11 +47,17 @@ const Box = styled.div<BoxProps>`
   border-color: ${(props) => boxBorderColours[props.$type]};
   border-radius: 2px;
   border-width: ${(props) => props.$transparent && "2px"};
-  background: ${(props) => !props.$transparent && boxColours[props.$type]};
+  background: ${(props) =>
+    props.$cleared ? "white" : !props.$transparent && boxColours[props.$type]};
   box-shadow: ${(props) =>
     !props.$transparent &&
     `inset 0.1em 0.1em 0.1em 0 rgba(255, 255, 255, 0.5),
     inset -0.1em -0.1em 0.1em 0 rgba(0, 0, 0, 0.5)`};
+  transform: ${(props) => props.$cleared && "scale(0)"};
+  transition: ${(props) => props.$cleared && "transform 0.2s ease"};
+  transition-delay: ${(props) =>
+    props.$cleared &&
+    `${(props.$index * lineClearAnimationLength) / board.width}ms`};
 `;
 
 const boxColours: { [T in TetriminoType]: string } = {
