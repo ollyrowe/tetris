@@ -1,3 +1,10 @@
+## [1.13.1](https://github.com/ollyrowe/tetris/compare/v1.13.0...v1.13.1) (2024-09-11)
+
+
+### Bug Fixes
+
+* fix line clearing issue ([99b0449](https://github.com/ollyrowe/tetris/commit/99b0449a6929f051fe305e5b5783560a5acbd14d))
+
 # [1.13.0](https://github.com/ollyrowe/tetris/compare/v1.12.2...v1.13.0) (2024-09-11)
 
 
