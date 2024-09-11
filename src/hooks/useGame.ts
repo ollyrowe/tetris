@@ -278,7 +278,7 @@ export const useGame = () => {
 
   const moveTetrimino = useCallback(
     (direction: MoveableDirection) => {
-      if (status === "playing") {
+      if (status === "playing" && !gameLoop.paused) {
         const movedTetrimino = tetrimino.current.getMovedBlocks(direction);
 
         // Ensure the updated blocks haven't gone outside the board or collided with another block
@@ -300,7 +300,7 @@ export const useGame = () => {
         }
       }
     },
-    [status, addPoints, cancelSoftDrop]
+    [status, addPoints, cancelSoftDrop, gameLoop]
   );
 
   const softDropTetrimino = useCallback(() => {
@@ -379,7 +379,7 @@ export const useGame = () => {
   }, [status, clearSoftDropInterval, addPoints, gameLoop]);
 
   const rotateTetrimino = () => {
-    if (status === "playing") {
+    if (status === "playing" && !gameLoop.paused) {
       const { rotatedBlocks } = tetrimino.current.getRotatedState();
 
       // Ensure the updated blocks haven't gone outside the board or collided with another block
@@ -396,7 +396,11 @@ export const useGame = () => {
 
   const holdTetrimino = () => {
     // If the player hasn't already switched the held tetrimino
-    if (status === "playing" && !hasSwitchedHeldTetrimino.current) {
+    if (
+      status === "playing" &&
+      !gameLoop.paused &&
+      !hasSwitchedHeldTetrimino.current
+    ) {
       if (heldTetrimino) {
         const currentlyHeldTetrimino = heldTetrimino;
 
