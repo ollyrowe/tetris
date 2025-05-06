@@ -1,3 +1,10 @@
+## [1.13.2](https://github.com/ollyrowe/tetris/compare/v1.13.1...v1.13.2) (2025-05-06)
+
+
+### Bug Fixes
+
+* prevent over scroll behaviour ([96ca768](https://github.com/ollyrowe/tetris/commit/96ca768af993e696f4953d5f4e620ddaae296c43))
+
 ## [1.13.1](https://github.com/ollyrowe/tetris/compare/v1.13.0...v1.13.1) (2024-09-11)
 
 
