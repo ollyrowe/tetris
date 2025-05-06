@@ -243,7 +243,7 @@ Error generating stack: `+i.message+`
   margin-top: 24px;
   min-width: 50px;
   text-align: center;
-`,P1=()=>{const{status:e,stats:t}=be();return C.jsx(xd,{title:"Level",children:e==="idle"?"-":t.level})},$1=()=>{const{status:e,stats:t}=be();return C.jsx(xd,{title:"Lines",children:e==="idle"?"-":t.lines})},N1="1.13.1",z1=()=>C.jsx(L1,{children:`v${N1}`}),L1=D.div`
+`,P1=()=>{const{status:e,stats:t}=be();return C.jsx(xd,{title:"Level",children:e==="idle"?"-":t.level})},$1=()=>{const{status:e,stats:t}=be();return C.jsx(xd,{title:"Lines",children:e==="idle"?"-":t.lines})},N1="1.13.2",z1=()=>C.jsx(L1,{children:`v${N1}`}),L1=D.div`
   font-family: monospace;
   position: absolute;
   bottom: 0;
